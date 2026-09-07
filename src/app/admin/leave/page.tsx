@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Badge, Button, Input, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { decideLeaveRequest } from "@/lib/actions/leave";
 import { getAffectedPeriods } from "@/lib/leave-coverage";
 
@@ -90,12 +91,12 @@ export default async function AdminLeavePage() {
                   <form action={decideLeaveRequest} className="flex gap-2 items-center">
                     <input type="hidden" name="leaveRequestId" value={r.id} />
                     <Input name="decisionNote" placeholder="Note (optional)" className="w-40" />
-                    <Button type="submit" name="decision" value="APPROVED">
+                    <SubmitButton name="decision" value="APPROVED">
                       Approve
-                    </Button>
-                    <Button type="submit" name="decision" value="DECLINED" variant="secondary">
+                    </SubmitButton>
+                    <SubmitButton name="decision" value="DECLINED" variant="secondary">
                       Decline
-                    </Button>
+                    </SubmitButton>
                   </form>
                 </div>
               ))}

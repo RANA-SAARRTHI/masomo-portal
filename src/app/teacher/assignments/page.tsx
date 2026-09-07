@@ -2,6 +2,7 @@ import { requireSession } from "@/lib/guard";
 import { getTeacherAllocations } from "@/lib/teacher-context";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Select, Input, Button, Label, EmptyState, Badge } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { postAssignment, gradeSubmission } from "@/lib/actions/teacher";
 
 export default async function AssignmentsPage() {
@@ -47,9 +48,9 @@ export default async function AssignmentsPage() {
                             <input type="hidden" name="submissionId" value={s.id} />
                             <Input name="score" type="number" defaultValue={s.score ?? ""} className="w-20" placeholder="Score" />
                             <Input name="feedback" defaultValue={s.feedback ?? ""} placeholder="Feedback" className="w-40" />
-                            <Button type="submit" variant="secondary">
+                            <SubmitButton variant="secondary">
                               Save
-                            </Button>
+                            </SubmitButton>
                           </form>
                         </td>
                       </tr>
@@ -65,8 +66,8 @@ export default async function AssignmentsPage() {
           <CardHeader title="Set an assignment" />
           <form action={postAssignment} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Subject & class</Label>
-              <Select name="combo" required>
+              <Label htmlFor="field-combo">Subject & class</Label>
+              <Select id="field-combo" name="combo" required>
                 <option value="">Select</option>
                 {allocations.map((a) => (
                   <option key={a.id} value={`${a.subject.id}|${a.classGroup.id}`}>
@@ -76,23 +77,23 @@ export default async function AssignmentsPage() {
               </Select>
             </div>
             <div>
-              <Label>Title</Label>
-              <Input name="title" required placeholder="e.g. Essay: causes of..." />
+              <Label htmlFor="field-title">Title</Label>
+              <Input id="field-title" name="title" required placeholder="e.g. Essay: causes of..." />
             </div>
             <div>
-              <Label>Instructions</Label>
-              <Input name="instructions" placeholder="What should students do?" />
+              <Label htmlFor="field-instructions">Instructions</Label>
+              <Input id="field-instructions" name="instructions" placeholder="What should students do?" />
             </div>
             <div>
-              <Label>Due date</Label>
-              <Input type="date" name="dueDate" required />
+              <Label htmlFor="field-duedate">Due date</Label>
+              <Input id="field-duedate" type="date" name="dueDate" required />
             </div>
             <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
               <input type="checkbox" name="allowLate" className="rounded" /> Allow late submission
             </label>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Post assignment
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

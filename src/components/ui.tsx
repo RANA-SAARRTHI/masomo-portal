@@ -125,8 +125,12 @@ export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
   );
 }
 
-export function Label({ children }: { children: React.ReactNode }) {
-  return <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1">{children}</label>;
+export function Label({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) {
+  return (
+    <label htmlFor={htmlFor} className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1">
+      {children}
+    </label>
+  );
 }
 
 export function Table({ head, children }: { head: string[]; children: React.ReactNode }) {

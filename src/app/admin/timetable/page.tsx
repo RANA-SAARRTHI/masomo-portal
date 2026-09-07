@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, Select, Button, Label, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { TimetableGrid } from "@/components/timetable-grid";
 import { deleteTimetableSlot } from "@/lib/actions/admin";
 import { AddPeriodForm } from "./add-period-form";
@@ -26,8 +27,8 @@ export default async function TimetablePage({ searchParams }: { searchParams: Pr
       <Card>
         <form method="get" className="p-4 sm:p-5 border-b border-slate-100 flex items-end gap-3 dark:border-slate-800">
           <div className="w-56">
-            <Label>Class</Label>
-            <Select name="classGroupId" defaultValue={classGroupId}>
+            <Label htmlFor="field-classgroupid">Class</Label>
+            <Select id="field-classgroupid" name="classGroupId" defaultValue={classGroupId}>
               {classGroups.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
@@ -35,9 +36,9 @@ export default async function TimetablePage({ searchParams }: { searchParams: Pr
               ))}
             </Select>
           </div>
-          <Button type="submit" variant="secondary">
+          <SubmitButton variant="secondary">
             View
-          </Button>
+          </SubmitButton>
         </form>
 
         <div className="p-4 sm:p-5">

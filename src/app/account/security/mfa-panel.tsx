@@ -62,8 +62,8 @@ export function MfaPanel({ initiallyEnabled }: { initiallyEnabled: boolean }) {
             <p className="text-sm text-emerald-700 font-medium">Two-factor authentication is ON.</p>
             <form action={handleDisable} className="flex gap-2 items-end">
               <div>
-                <Label>Enter a current code to turn it off</Label>
-                <Input name="code" inputMode="numeric" placeholder="6-digit code" required />
+                <Label htmlFor="field-code">Enter a current code to turn it off</Label>
+                <Input id="field-code" name="code" inputMode="numeric" placeholder="6-digit code" required />
               </div>
               <Button type="submit" variant="danger" disabled={isPending}>
                 Disable
@@ -82,8 +82,8 @@ export function MfaPanel({ initiallyEnabled }: { initiallyEnabled: boolean }) {
             </details>
             <form action={handleConfirm} className="flex gap-2 items-end">
               <div>
-                <Label>Code from your app</Label>
-                <Input name="code" inputMode="numeric" placeholder="6-digit code" required autoFocus />
+                <Label htmlFor="field-code-2">Code from your app</Label>
+                <Input id="field-code-2" name="code" inputMode="numeric" placeholder="6-digit code" required autoFocus />
               </div>
               <Button type="submit" disabled={isPending}>
                 Confirm & enable

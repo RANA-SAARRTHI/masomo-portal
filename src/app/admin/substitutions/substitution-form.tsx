@@ -64,8 +64,8 @@ export function SubstitutionForm({
     <div className="space-y-4">
       <div className="grid sm:grid-cols-3 gap-3 items-end">
         <div>
-          <Label>Period</Label>
-          <Select value={slotId} onChange={(e) => { setSlotId(e.target.value); setEligible(null); }}>
+          <Label htmlFor="substitution-period">Period</Label>
+          <Select id="substitution-period" value={slotId} onChange={(e) => { setSlotId(e.target.value); setEligible(null); }}>
             {slots.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.label} ({s.teacherName})
@@ -74,8 +74,8 @@ export function SubstitutionForm({
           </Select>
         </div>
         <div>
-          <Label>Date</Label>
-          <Input type="date" value={date} onChange={(e) => { setDate(e.target.value); setEligible(null); }} />
+          <Label htmlFor="substitution-date">Date</Label>
+          <Input id="substitution-date" type="date" value={date} onChange={(e) => { setDate(e.target.value); setEligible(null); }} />
         </div>
         <Button type="button" variant="secondary" onClick={findSubstitutes} disabled={isPending || !slotId}>
           {isPending ? "Checking..." : "Find free teachers"}
@@ -90,8 +90,8 @@ export function SubstitutionForm({
           <input type="hidden" name="timetableSlotId" value={slotId} />
           <input type="hidden" name="date" value={date} />
           <div>
-            <Label>Substitute teacher</Label>
-            <Select name="substituteTeacherId" required>
+            <Label htmlFor="field-substituteteacherid">Substitute teacher</Label>
+            <Select id="field-substituteteacherid" name="substituteTeacherId" required>
               {eligible.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.name}
@@ -100,8 +100,8 @@ export function SubstitutionForm({
             </Select>
           </div>
           <div>
-            <Label>Reason (optional)</Label>
-            <Input name="reason" placeholder="e.g. Sick leave" />
+            <Label htmlFor="field-reason">Reason (optional)</Label>
+            <Input id="field-reason" name="reason" placeholder="e.g. Sick leave" />
           </div>
           <Button type="submit" disabled={isPending}>
             {isPending ? "Assigning..." : "Assign substitute"}

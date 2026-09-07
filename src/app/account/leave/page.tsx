@@ -3,6 +3,7 @@ import { requireAnySession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { ROLE_HOME, type RoleName } from "@/lib/roles";
 import { Card, CardHeader, Table, Badge, Button, Input, Label, Select, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { submitLeaveRequest } from "@/lib/actions/leave";
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -40,8 +41,8 @@ export default async function MyLeavePage() {
               <CardHeader title="Request leave" />
               <form action={submitLeaveRequest} className="p-4 sm:p-5 grid sm:grid-cols-2 gap-3">
                 <div>
-                  <Label>Category</Label>
-                  <Select name="category" required defaultValue="ANNUAL">
+                  <Label htmlFor="field-category">Category</Label>
+                  <Select id="field-category" name="category" required defaultValue="ANNUAL">
                     <option value="SICK">Sick leave</option>
                     <option value="ANNUAL">Annual leave</option>
                     <option value="COMPASSIONATE">Compassionate leave</option>
@@ -51,19 +52,19 @@ export default async function MyLeavePage() {
                 </div>
                 <div />
                 <div>
-                  <Label>Start date</Label>
-                  <Input type="date" name="startDate" required />
+                  <Label htmlFor="field-startdate">Start date</Label>
+                  <Input id="field-startdate" type="date" name="startDate" required />
                 </div>
                 <div>
-                  <Label>End date</Label>
-                  <Input type="date" name="endDate" required />
+                  <Label htmlFor="field-enddate">End date</Label>
+                  <Input id="field-enddate" type="date" name="endDate" required />
                 </div>
                 <div className="sm:col-span-2">
-                  <Label>Reason (optional)</Label>
-                  <Input name="reason" placeholder="Brief reason" />
+                  <Label htmlFor="field-reason">Reason (optional)</Label>
+                  <Input id="field-reason" name="reason" placeholder="Brief reason" />
                 </div>
                 <div className="sm:col-span-2">
-                  <Button type="submit">Submit request</Button>
+                  <SubmitButton>Submit request</SubmitButton>
                 </div>
               </form>
             </Card>

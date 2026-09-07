@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, StatCard, Card, CardHeader, Table, Button, Input, Label } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { createFeeStructure } from "@/lib/actions/bursar";
 
 export default async function BursarOverview() {
@@ -36,22 +37,22 @@ export default async function BursarOverview() {
         </Table>
         <form action={createFeeStructure} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-4 gap-3 items-end dark:border-slate-800">
           <div>
-            <Label>Name</Label>
-            <Input name="name" required placeholder="Tuition" />
+            <Label htmlFor="field-name">Name</Label>
+            <Input id="field-name" name="name" required placeholder="Tuition" />
           </div>
           <div>
-            <Label>Amount (UGX)</Label>
-            <Input name="amount" type="number" required placeholder="500000" />
+            <Label htmlFor="field-amount">Amount (UGX)</Label>
+            <Input id="field-amount" name="amount" type="number" required placeholder="500000" />
           </div>
           <div>
-            <Label>Term label</Label>
-            <Input name="termLabel" placeholder="Term 1 2026" />
+            <Label htmlFor="field-termlabel">Term label</Label>
+            <Input id="field-termlabel" name="termLabel" placeholder="Term 1 2026" />
           </div>
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
               <input type="checkbox" name="mandatory" defaultChecked className="rounded" /> Mandatory
             </label>
-            <Button type="submit">Add</Button>
+            <SubmitButton>Add</SubmitButton>
           </div>
         </form>
       </Card>

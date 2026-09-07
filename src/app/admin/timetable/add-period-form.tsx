@@ -31,8 +31,8 @@ export function AddPeriodForm({
       <form action={handleSubmit} className="grid sm:grid-cols-6 gap-3 items-end">
         <input type="hidden" name="classGroupId" value={classGroupId} />
         <div className="sm:col-span-2">
-          <Label>Subject</Label>
-          <Select name="subjectId" required>
+          <Label htmlFor="field-subjectid">Subject</Label>
+          <Select id="field-subjectid" name="subjectId" required>
             {subjects.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
@@ -41,8 +41,8 @@ export function AddPeriodForm({
           </Select>
         </div>
         <div>
-          <Label>Day</Label>
-          <Select name="dayOfWeek" defaultValue="1">
+          <Label htmlFor="field-dayofweek">Day</Label>
+          <Select id="field-dayofweek" name="dayOfWeek" defaultValue="1">
             <option value="1">Monday</option>
             <option value="2">Tuesday</option>
             <option value="3">Wednesday</option>
@@ -52,16 +52,16 @@ export function AddPeriodForm({
           </Select>
         </div>
         <div>
-          <Label>Start</Label>
-          <Input type="time" name="startTime" required defaultValue="08:00" />
+          <Label htmlFor="field-starttime">Start</Label>
+          <Input id="field-starttime" type="time" name="startTime" required defaultValue="08:00" />
         </div>
         <div>
-          <Label>End</Label>
-          <Input type="time" name="endTime" required defaultValue="08:40" />
+          <Label htmlFor="field-endtime">End</Label>
+          <Input id="field-endtime" type="time" name="endTime" required defaultValue="08:40" />
         </div>
         <div>
-          <Label>Room</Label>
-          <Input name="room" placeholder="e.g. Lab 2" />
+          <Label htmlFor="field-room">Room</Label>
+          <Input id="field-room" name="room" placeholder="e.g. Lab 2" />
         </div>
         <div className="sm:col-span-6">
           <Button type="submit" disabled={isPending}>

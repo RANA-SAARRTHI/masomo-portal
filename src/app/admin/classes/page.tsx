@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Button, Input, Label } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { createClassGroup, createSubject } from "@/lib/actions/admin";
 
 export default async function ClassesPage() {
@@ -27,15 +28,15 @@ export default async function ClassesPage() {
           </Table>
           <form action={createClassGroup} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-2 gap-3 dark:border-slate-800">
             <div>
-              <Label>Class name</Label>
-              <Input name="name" required placeholder="e.g. S4 East" />
+              <Label htmlFor="field-name">Class name</Label>
+              <Input id="field-name" name="name" required placeholder="e.g. S4 East" />
             </div>
             <div>
-              <Label>Level</Label>
-              <Input name="level" placeholder="e.g. Senior 4" />
+              <Label htmlFor="field-level">Level</Label>
+              <Input id="field-level" name="level" placeholder="e.g. Senior 4" />
             </div>
             <div className="sm:col-span-2">
-              <Button type="submit">Add class</Button>
+              <SubmitButton>Add class</SubmitButton>
             </div>
           </form>
         </Card>
@@ -52,15 +53,15 @@ export default async function ClassesPage() {
           </Table>
           <form action={createSubject} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-2 gap-3 dark:border-slate-800">
             <div>
-              <Label>Subject name</Label>
-              <Input name="name" required placeholder="e.g. Mathematics" />
+              <Label htmlFor="field-name-2">Subject name</Label>
+              <Input id="field-name-2" name="name" required placeholder="e.g. Mathematics" />
             </div>
             <div>
-              <Label>Code</Label>
-              <Input name="code" required placeholder="e.g. MATH" />
+              <Label htmlFor="field-code">Code</Label>
+              <Input id="field-code" name="code" required placeholder="e.g. MATH" />
             </div>
             <div className="sm:col-span-2">
-              <Button type="submit">Add subject</Button>
+              <SubmitButton>Add subject</SubmitButton>
             </div>
           </form>
         </Card>

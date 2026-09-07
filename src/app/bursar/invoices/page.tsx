@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Badge, Button, Select, Input, Label, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { raiseInvoice } from "@/lib/actions/bursar";
 
 export default async function InvoicesPage() {
@@ -39,8 +40,8 @@ export default async function InvoicesPage() {
           <CardHeader title="Raise an invoice" />
           <form action={raiseInvoice} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Student</Label>
-              <Select name="studentId" required>
+              <Label htmlFor="field-studentid">Student</Label>
+              <Select id="field-studentid" name="studentId" required>
                 <option value="">Select student</option>
                 {students.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -50,16 +51,16 @@ export default async function InvoicesPage() {
               </Select>
             </div>
             <div>
-              <Label>Description</Label>
-              <Input name="description" required placeholder="e.g. Term 2 tuition" />
+              <Label htmlFor="field-description">Description</Label>
+              <Input id="field-description" name="description" required placeholder="e.g. Term 2 tuition" />
             </div>
             <div>
-              <Label>Amount (UGX)</Label>
-              <Input name="amount" type="number" required placeholder="500000" />
+              <Label htmlFor="field-amount">Amount (UGX)</Label>
+              <Input id="field-amount" name="amount" type="number" required placeholder="500000" />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Raise invoice
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

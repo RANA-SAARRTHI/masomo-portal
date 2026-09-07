@@ -2,6 +2,7 @@ import { requireSession } from "@/lib/guard";
 import { getTeacherAllocations } from "@/lib/teacher-context";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Select, Input, Button, Label, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { postMaterial } from "@/lib/actions/teacher";
 
 export default async function MaterialsPage() {
@@ -40,8 +41,8 @@ export default async function MaterialsPage() {
           <CardHeader title="Post material" />
           <form action={postMaterial} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Subject & class</Label>
-              <Select name="combo" required>
+              <Label htmlFor="field-combo">Subject & class</Label>
+              <Select id="field-combo" name="combo" required>
                 <option value="">Select</option>
                 {allocations.map((a) => (
                   <option key={a.id} value={`${a.subject.id}|${a.classGroup.id}`}>
@@ -51,28 +52,28 @@ export default async function MaterialsPage() {
               </Select>
             </div>
             <div>
-              <Label>Title</Label>
-              <Input name="title" required placeholder="e.g. Chapter 4 notes" />
+              <Label htmlFor="field-title">Title</Label>
+              <Input id="field-title" name="title" required placeholder="e.g. Chapter 4 notes" />
             </div>
             <div>
-              <Label>Description</Label>
-              <Input name="description" placeholder="Short description" />
+              <Label htmlFor="field-description">Description</Label>
+              <Input id="field-description" name="description" placeholder="Short description" />
             </div>
             <div>
-              <Label>Type</Label>
-              <Select name="type" defaultValue="DOCUMENT">
+              <Label htmlFor="field-type">Type</Label>
+              <Select id="field-type" name="type" defaultValue="DOCUMENT">
                 <option value="DOCUMENT">Document</option>
                 <option value="LINK">Link</option>
                 <option value="VIDEO">Video</option>
               </Select>
             </div>
             <div>
-              <Label>Link / URL</Label>
-              <Input name="url" placeholder="https://..." />
+              <Label htmlFor="field-url">Link / URL</Label>
+              <Input id="field-url" name="url" placeholder="https://..." />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Publish
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

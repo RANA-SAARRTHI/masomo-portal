@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Badge, Button, Input, Label, Select } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { createStudent, linkGuardian, updateUserStatus } from "@/lib/actions/admin";
 
 export default async function StudentsPage() {
@@ -63,8 +64,8 @@ export default async function StudentsPage() {
             <CardHeader title="Link a guardian" subtitle="Connect a parent or authorised adult to a student." />
             <form action={linkGuardian} className="p-4 sm:p-5 grid sm:grid-cols-2 gap-3">
               <div>
-                <Label>Student</Label>
-                <Select name="studentId" required>
+                <Label htmlFor="field-studentid">Student</Label>
+                <Select id="field-studentid" name="studentId" required>
                   <option value="">Select student</option>
                   {students.map((s) => (
                     <option key={s.id} value={s.studentProfile?.id}>
@@ -74,23 +75,23 @@ export default async function StudentsPage() {
                 </Select>
               </div>
               <div>
-                <Label>Relationship</Label>
-                <Select name="relationship" defaultValue="Parent">
+                <Label htmlFor="field-relationship">Relationship</Label>
+                <Select id="field-relationship" name="relationship" defaultValue="Parent">
                   <option>Parent</option>
                   <option>Guardian</option>
                   <option>Sponsor</option>
                 </Select>
               </div>
               <div>
-                <Label>Guardian name</Label>
-                <Input name="guardianName" required placeholder="Full name" />
+                <Label htmlFor="field-guardianname">Guardian name</Label>
+                <Input id="field-guardianname" name="guardianName" required placeholder="Full name" />
               </div>
               <div>
-                <Label>Guardian email</Label>
-                <Input name="guardianEmail" type="email" required placeholder="guardian@email.com" />
+                <Label htmlFor="field-guardianemail">Guardian email</Label>
+                <Input id="field-guardianemail" name="guardianEmail" type="email" required placeholder="guardian@email.com" />
               </div>
               <div className="sm:col-span-2">
-                <Button type="submit">Link guardian</Button>
+                <SubmitButton>Link guardian</SubmitButton>
               </div>
             </form>
           </Card>
@@ -100,20 +101,20 @@ export default async function StudentsPage() {
           <CardHeader title="Admit a student" subtitle="Creates the profile and a login." />
           <form action={createStudent} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Full name</Label>
-              <Input name="name" required placeholder="e.g. Nabirye Grace" />
+              <Label htmlFor="field-name">Full name</Label>
+              <Input id="field-name" name="name" required placeholder="e.g. Nabirye Grace" />
             </div>
             <div>
-              <Label>Email</Label>
-              <Input name="email" type="email" required placeholder="student@email.com" />
+              <Label htmlFor="field-email">Email</Label>
+              <Input id="field-email" name="email" type="email" required placeholder="student@email.com" />
             </div>
             <div>
-              <Label>Admission number</Label>
-              <Input name="admissionNo" required placeholder="e.g. MS-2026-014" />
+              <Label htmlFor="field-admissionno">Admission number</Label>
+              <Input id="field-admissionno" name="admissionNo" required placeholder="e.g. MS-2026-014" />
             </div>
             <div>
-              <Label>Class</Label>
-              <Select name="classGroupId">
+              <Label htmlFor="field-classgroupid">Class</Label>
+              <Select id="field-classgroupid" name="classGroupId">
                 <option value="">Unassigned</option>
                 {classGroups.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -122,9 +123,9 @@ export default async function StudentsPage() {
                 ))}
               </Select>
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Admit student
-            </Button>
+            </SubmitButton>
             <p className="text-xs text-slate-400 dark:text-slate-500">Default password: Masomo@2026 (ask them to change it after first login).</p>
           </form>
         </Card>

@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Button, Input, Label, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { addRoute, assignStudent } from "@/lib/actions/transport";
 
 export default async function TransportPage() {
@@ -36,9 +37,9 @@ export default async function TransportPage() {
                   <input type="hidden" name="routeId" value={r.id} />
                   <Input name="studentName" placeholder="Student name" className="flex-1" />
                   <Input name="stop" placeholder="Stop" className="flex-1" />
-                  <Button type="submit" variant="secondary">
+                  <SubmitButton variant="secondary">
                     Assign
-                  </Button>
+                  </SubmitButton>
                 </form>
               </Card>
             ))
@@ -49,24 +50,24 @@ export default async function TransportPage() {
           <CardHeader title="Add a route" />
           <form action={addRoute} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Route name</Label>
-              <Input name="name" required placeholder="e.g. Kireka - Ntinda" />
+              <Label htmlFor="field-name">Route name</Label>
+              <Input id="field-name" name="name" required placeholder="e.g. Kireka - Ntinda" />
             </div>
             <div>
-              <Label>Vehicle</Label>
-              <Input name="vehicle" placeholder="e.g. UBH 123X" />
+              <Label htmlFor="field-vehicle">Vehicle</Label>
+              <Input id="field-vehicle" name="vehicle" placeholder="e.g. UBH 123X" />
             </div>
             <div>
-              <Label>Driver</Label>
-              <Input name="driver" placeholder="Driver name" />
+              <Label htmlFor="field-driver">Driver</Label>
+              <Input id="field-driver" name="driver" placeholder="Driver name" />
             </div>
             <div>
-              <Label>Capacity</Label>
-              <Input name="capacity" type="number" defaultValue={30} />
+              <Label htmlFor="field-capacity">Capacity</Label>
+              <Input id="field-capacity" name="capacity" type="number" defaultValue={30} />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Add route
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

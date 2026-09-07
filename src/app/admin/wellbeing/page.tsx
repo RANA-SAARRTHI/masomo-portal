@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Badge, Button, Input, Label, Select, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { createWellbeingRecord, updateWellbeingRecord } from "@/lib/actions/wellbeing";
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -54,20 +55,20 @@ export default async function WellbeingPage() {
                     <form action={updateWellbeingRecord} className="flex flex-wrap gap-2 items-end border-t border-slate-100 pt-3 dark:border-slate-800">
                       <input type="hidden" name="recordId" value={r.id} />
                       <div className="flex-1 min-w-[10rem]">
-                        <Label>Action taken</Label>
-                        <Input name="actionTaken" placeholder="What was done" />
+                        <Label htmlFor="field-actiontaken">Action taken</Label>
+                        <Input id="field-actiontaken" name="actionTaken" placeholder="What was done" />
                       </div>
                       <div>
-                        <Label>Status</Label>
-                        <Select name="status" defaultValue={r.status}>
+                        <Label htmlFor="field-status">Status</Label>
+                        <Select id="field-status" name="status" defaultValue={r.status}>
                           <option value="OPEN">Open</option>
                           <option value="IN_PROGRESS">In progress</option>
                           <option value="RESOLVED">Resolved</option>
                         </Select>
                       </div>
-                      <Button type="submit" variant="secondary">
+                      <SubmitButton variant="secondary">
                         Update
-                      </Button>
+                      </SubmitButton>
                     </form>
                   )}
                 </div>
@@ -80,8 +81,8 @@ export default async function WellbeingPage() {
           <CardHeader title="Record a concern" />
           <form action={createWellbeingRecord} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Student</Label>
-              <Select name="studentId" required>
+              <Label htmlFor="field-studentid">Student</Label>
+              <Select id="field-studentid" name="studentId" required>
                 <option value="">Select student</option>
                 {students.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -91,8 +92,8 @@ export default async function WellbeingPage() {
               </Select>
             </div>
             <div>
-              <Label>Category</Label>
-              <Select name="category" required>
+              <Label htmlFor="field-category">Category</Label>
+              <Select id="field-category" name="category" required>
                 <option value="SAFEGUARDING">Safeguarding</option>
                 <option value="DISCIPLINE">Discipline</option>
                 <option value="HEALTH">Health</option>
@@ -100,8 +101,8 @@ export default async function WellbeingPage() {
               </Select>
             </div>
             <div>
-              <Label>Factual observation</Label>
-              <textarea
+              <Label htmlFor="field-description">Factual observation</Label>
+              <textarea id="field-description"
                 name="description"
                 required
                 rows={4}
@@ -109,9 +110,9 @@ export default async function WellbeingPage() {
                 placeholder="Record what was observed, not a diagnosis or judgement."
               />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Record
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

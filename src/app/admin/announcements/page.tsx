@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Badge, Button, Input, Label, Select, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { postAnnouncement } from "@/lib/actions/admin";
 
 export default async function AnnouncementsPage() {
@@ -40,12 +41,12 @@ export default async function AnnouncementsPage() {
           <CardHeader title="Post an announcement" />
           <form action={postAnnouncement} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Title</Label>
-              <Input name="title" required placeholder="e.g. Term 3 begins Monday" />
+              <Label htmlFor="field-title">Title</Label>
+              <Input id="field-title" name="title" required placeholder="e.g. Term 3 begins Monday" />
             </div>
             <div>
-              <Label>Message</Label>
-              <textarea
+              <Label htmlFor="field-body">Message</Label>
+              <textarea id="field-body"
                 name="body"
                 required
                 rows={4}
@@ -54,8 +55,8 @@ export default async function AnnouncementsPage() {
               />
             </div>
             <div>
-              <Label>Audience</Label>
-              <Select name="audience" defaultValue="ALL">
+              <Label htmlFor="field-audience">Audience</Label>
+              <Select id="field-audience" name="audience" defaultValue="ALL">
                 <option value="ALL">Whole school</option>
                 <option value="STAFF">Staff only</option>
                 <option value="GUARDIANS">Guardians</option>
@@ -63,16 +64,16 @@ export default async function AnnouncementsPage() {
               </Select>
             </div>
             <div>
-              <Label>Priority</Label>
-              <Select name="priority" defaultValue="NORMAL">
+              <Label htmlFor="field-priority">Priority</Label>
+              <Select id="field-priority" name="priority" defaultValue="NORMAL">
                 <option value="NORMAL">Normal</option>
                 <option value="IMPORTANT">Important (needs acknowledgement)</option>
                 <option value="EMERGENCY">Emergency</option>
               </Select>
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Publish
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

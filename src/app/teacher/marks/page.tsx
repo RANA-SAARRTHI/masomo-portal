@@ -2,6 +2,7 @@ import { requireSession } from "@/lib/guard";
 import { getTeacherAllocations } from "@/lib/teacher-context";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Select, Input, Button, Label, EmptyState, Badge } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { createAssessment, saveMarks, submitForModeration } from "@/lib/actions/teacher";
 
 const STATE_TONE: Record<string, "emerald" | "amber" | "slate" | "rose" | "brand"> = {
@@ -67,9 +68,9 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
                 {active.state === "OPEN" && (
                   <form action={submitForModeration} className="ml-auto">
                     <input type="hidden" name="assessmentId" value={active.id} />
-                    <Button type="submit" variant="secondary">
+                    <SubmitButton variant="secondary">
                       Submit for moderation
-                    </Button>
+                    </SubmitButton>
                   </form>
                 )}
                 {active.state !== "OPEN" && (
@@ -104,9 +105,9 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
                     </div>
                   );
                 })}
-                <Button type="submit" disabled={active.state !== "OPEN"}>
+                <SubmitButton disabled={active.state !== "OPEN"}>
                   Save marks
-                </Button>
+                </SubmitButton>
               </form>
             </>
           )}
@@ -116,8 +117,8 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
           <CardHeader title="New assessment" />
           <form action={createAssessment} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Subject</Label>
-              <Select name="subjectId" required>
+              <Label htmlFor="field-subjectid">Subject</Label>
+              <Select id="field-subjectid" name="subjectId" required>
                 {Array.from(new Map(allocations.map((a) => [a.subject.id, a.subject])).values()).map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.name}
@@ -126,8 +127,8 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
               </Select>
             </div>
             <div>
-              <Label>Term</Label>
-              <Select name="termId" required>
+              <Label htmlFor="field-termid">Term</Label>
+              <Select id="field-termid" name="termId" required>
                 {terms.map((t) => (
                   <option key={t.id} value={t.id}>
                     {t.name}
@@ -136,16 +137,16 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
               </Select>
             </div>
             <div>
-              <Label>Name</Label>
-              <Input name="name" required placeholder="e.g. Midterm" />
+              <Label htmlFor="field-name">Name</Label>
+              <Input id="field-name" name="name" required placeholder="e.g. Midterm" />
             </div>
             <div>
-              <Label>Max mark</Label>
-              <Input name="maxMark" type="number" defaultValue={100} />
+              <Label htmlFor="field-maxmark">Max mark</Label>
+              <Input id="field-maxmark" name="maxMark" type="number" defaultValue={100} />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Create
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

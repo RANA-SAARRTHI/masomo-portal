@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Badge, Button, Select, Input, Label, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { recordPayment, reversePayment } from "@/lib/actions/bursar";
 
 export default async function PaymentsPage() {
@@ -58,8 +59,8 @@ export default async function PaymentsPage() {
           <CardHeader title="Record payment" />
           <form action={recordPayment} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Invoice</Label>
-              <Select name="invoiceId" required>
+              <Label htmlFor="field-invoiceid">Invoice</Label>
+              <Select id="field-invoiceid" name="invoiceId" required>
                 <option value="">Select open invoice</option>
                 {openInvoices.map((inv) => (
                   <option key={inv.id} value={inv.id}>
@@ -69,20 +70,20 @@ export default async function PaymentsPage() {
               </Select>
             </div>
             <div>
-              <Label>Amount (UGX)</Label>
-              <Input name="amount" type="number" required />
+              <Label htmlFor="field-amount">Amount (UGX)</Label>
+              <Input id="field-amount" name="amount" type="number" required />
             </div>
             <div>
-              <Label>Method</Label>
-              <Select name="method" defaultValue="CASH">
+              <Label htmlFor="field-method">Method</Label>
+              <Select id="field-method" name="method" defaultValue="CASH">
                 <option value="CASH">Cash</option>
                 <option value="BANK">Bank</option>
                 <option value="MOBILE_MONEY">Mobile money</option>
               </Select>
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Record payment
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

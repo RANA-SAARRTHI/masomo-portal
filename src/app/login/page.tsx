@@ -61,8 +61,9 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
-              <Label>Email</Label>
+              <Label htmlFor="login-email">Email</Label>
               <Input
+                id="login-email"
                 type="email"
                 required
                 disabled={needsMfa}
@@ -72,8 +73,9 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <Label>Password</Label>
+              <Label htmlFor="login-password">Password</Label>
               <Input
+                id="login-password"
                 type="password"
                 required
                 disabled={needsMfa}
@@ -84,8 +86,9 @@ export default function LoginPage() {
             </div>
             {needsMfa && (
               <div>
-                <Label>Authenticator code</Label>
+                <Label htmlFor="login-totp">Authenticator code</Label>
                 <Input
+                  id="login-totp"
                   type="text"
                   inputMode="numeric"
                   autoFocus

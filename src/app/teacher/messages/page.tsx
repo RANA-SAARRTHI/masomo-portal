@@ -2,6 +2,7 @@ import { requireSession } from "@/lib/guard";
 import { getTeacherAllocations } from "@/lib/teacher-context";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Select, Input, Button, Label, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { postClassMessage } from "@/lib/actions/teacher";
 
 export default async function TeacherMessagesPage() {
@@ -37,8 +38,8 @@ export default async function TeacherMessagesPage() {
           <CardHeader title="New message" />
           <form action={postClassMessage} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Class</Label>
-              <Select name="classGroupId" required>
+              <Label htmlFor="field-classgroupid">Class</Label>
+              <Select id="field-classgroupid" name="classGroupId" required>
                 {classGroups.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.name}
@@ -47,16 +48,16 @@ export default async function TeacherMessagesPage() {
               </Select>
             </div>
             <div>
-              <Label>Subject</Label>
-              <Input name="title" required placeholder="Message subject" />
+              <Label htmlFor="field-title">Subject</Label>
+              <Input id="field-title" name="title" required placeholder="Message subject" />
             </div>
             <div>
-              <Label>Message</Label>
-              <textarea name="body" required rows={4} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700" />
+              <Label htmlFor="field-body">Message</Label>
+              <textarea id="field-body" name="body" required rows={4} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700" />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Send
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

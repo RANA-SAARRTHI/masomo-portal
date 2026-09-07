@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Button, Input, Label, EmptyState } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { addLibraryItem, issueItem, returnItem } from "@/lib/actions/library";
 
 export default async function LibraryPage() {
@@ -38,9 +39,9 @@ export default async function LibraryPage() {
                       <form action={issueItem} className="flex gap-1">
                         <input type="hidden" name="itemId" value={it.id} />
                         <Input name="borrowerName" placeholder="Borrower" className="w-28" />
-                        <Button type="submit" variant="secondary" disabled={it.copiesAvailable < 1}>
+                        <SubmitButton variant="secondary" disabled={it.copiesAvailable < 1}>
                           Issue
-                        </Button>
+                        </SubmitButton>
                       </form>
                     </td>
                   </tr>
@@ -79,20 +80,20 @@ export default async function LibraryPage() {
           <CardHeader title="Add a title" />
           <form action={addLibraryItem} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Title</Label>
-              <Input name="title" required />
+              <Label htmlFor="field-title">Title</Label>
+              <Input id="field-title" name="title" required />
             </div>
             <div>
-              <Label>Author</Label>
-              <Input name="author" />
+              <Label htmlFor="field-author">Author</Label>
+              <Input id="field-author" name="author" />
             </div>
             <div>
-              <Label>Copies</Label>
-              <Input name="copies" type="number" defaultValue={1} />
+              <Label htmlFor="field-copies">Copies</Label>
+              <Input id="field-copies" name="copies" type="number" defaultValue={1} />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Add
-            </Button>
+            </SubmitButton>
           </form>
         </Card>
       </div>

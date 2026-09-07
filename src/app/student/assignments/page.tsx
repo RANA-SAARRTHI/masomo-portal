@@ -2,6 +2,7 @@ import { requireSession } from "@/lib/guard";
 import { getStudentProfile } from "@/lib/student-context";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, EmptyState, Badge, Button } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { submitAssignment } from "@/lib/actions/student";
 
 export default async function StudentAssignmentsPage() {
@@ -69,7 +70,7 @@ export default async function StudentAssignmentsPage() {
                         className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700"
                         placeholder="Type or paste your answer here..."
                       />
-                      <Button type="submit">Submit</Button>
+                      <SubmitButton>Submit</SubmitButton>
                     </form>
                   ) : (
                     <p className="text-sm text-rose-600">The deadline has passed and late submissions are not allowed.</p>

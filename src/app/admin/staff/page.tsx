@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Badge, Button, Input, Label, Select } from "@/components/ui";
+import { SubmitButton } from "@/components/submit-button";
 import { createStaff, allocateTeacher, updateUserStatus } from "@/lib/actions/admin";
 import { ROLE_LABELS } from "@/lib/roles";
 
@@ -54,8 +55,8 @@ export default async function StaffPage() {
             <CardHeader title="Allocate a teacher" subtitle="Give a teacher a subject and class, scoped to only that." />
             <form action={allocateTeacher} className="p-4 sm:p-5 grid sm:grid-cols-2 gap-3">
               <div>
-                <Label>Teacher</Label>
-                <Select name="teacherId" required>
+                <Label htmlFor="field-teacherid">Teacher</Label>
+                <Select id="field-teacherid" name="teacherId" required>
                   <option value="">Select teacher</option>
                   {teachers.map((t) => (
                     <option key={t.id} value={t.staffProfile?.id}>
@@ -65,8 +66,8 @@ export default async function StaffPage() {
                 </Select>
               </div>
               <div>
-                <Label>Subject</Label>
-                <Select name="subjectId" required>
+                <Label htmlFor="field-subjectid">Subject</Label>
+                <Select id="field-subjectid" name="subjectId" required>
                   <option value="">Select subject</option>
                   {subjects.map((s) => (
                     <option key={s.id} value={s.id}>
@@ -76,8 +77,8 @@ export default async function StaffPage() {
                 </Select>
               </div>
               <div>
-                <Label>Class</Label>
-                <Select name="classGroupId" required>
+                <Label htmlFor="field-classgroupid">Class</Label>
+                <Select id="field-classgroupid" name="classGroupId" required>
                   <option value="">Select class</option>
                   {classGroups.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -90,7 +91,7 @@ export default async function StaffPage() {
                 <input type="checkbox" name="isClassTeacher" className="rounded" /> Class teacher
               </label>
               <div className="sm:col-span-2">
-                <Button type="submit">Allocate</Button>
+                <SubmitButton>Allocate</SubmitButton>
               </div>
             </form>
           </Card>
@@ -100,20 +101,20 @@ export default async function StaffPage() {
           <CardHeader title="Add a staff member" subtitle="Creates the profile and a login." />
           <form action={createStaff} className="p-4 sm:p-5 space-y-3">
             <div>
-              <Label>Full name</Label>
-              <Input name="name" required placeholder="e.g. Okello Peter" />
+              <Label htmlFor="field-name">Full name</Label>
+              <Input id="field-name" name="name" required placeholder="e.g. Okello Peter" />
             </div>
             <div>
-              <Label>Email</Label>
-              <Input name="email" type="email" required placeholder="staff@school.ug" />
+              <Label htmlFor="field-email">Email</Label>
+              <Input id="field-email" name="email" type="email" required placeholder="staff@school.ug" />
             </div>
             <div>
-              <Label>Staff number</Label>
-              <Input name="staffNo" required placeholder="e.g. ST-014" />
+              <Label htmlFor="field-staffno">Staff number</Label>
+              <Input id="field-staffno" name="staffNo" required placeholder="e.g. ST-014" />
             </div>
             <div>
-              <Label>Role</Label>
-              <Select name="role" defaultValue="TEACHER">
+              <Label htmlFor="field-role">Role</Label>
+              <Select id="field-role" name="role" defaultValue="TEACHER">
                 <option value="TEACHER">Teacher</option>
                 <option value="ADMIN">Administrator</option>
                 <option value="PRINCIPAL">Principal</option>
@@ -123,12 +124,12 @@ export default async function StaffPage() {
               </Select>
             </div>
             <div>
-              <Label>Department</Label>
-              <Input name="department" placeholder="e.g. Sciences" />
+              <Label htmlFor="field-department">Department</Label>
+              <Input id="field-department" name="department" placeholder="e.g. Sciences" />
             </div>
-            <Button type="submit" className="w-full">
+            <SubmitButton className="w-full">
               Add staff member
-            </Button>
+            </SubmitButton>
             <p className="text-xs text-slate-400 dark:text-slate-500">Default password: Masomo@2026</p>
           </form>
         </Card>

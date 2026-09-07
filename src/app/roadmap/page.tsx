@@ -18,15 +18,16 @@ const live = [
   "Login rate limiting: an account locks for 15 minutes after 5 failed attempts",
   "Audit log of logins, failed logins and sensitive actions",
   "Installable PWA shell for low-end Android phones",
+  "Printable, school-branded report cards with grades, attendance and signature lines — one click from student, guardian or admin views",
+  "Timetable clash detection: rejects overlapping periods for the same class, room or teacher, with a plain-language reason",
 ];
 
 const planned = [
   "Multi-factor authentication for finance, admin and leadership roles",
   "Real SMS and mobile money provider integration with signed callback verification",
-  "Automated report card PDF generation with the school's own branding",
   "Offline-first attendance capture with sync when back online",
   "Full department-then-exams-office moderation chain (currently a single review-and-publish step)",
-  "Timetable clash detection and a substitution workflow for absent teachers",
+  "A substitution workflow for absent teachers",
   "Wellbeing, discipline and health records with restricted, need-to-know access",
   "Scheduled and exportable reports with watermarking for sensitive data",
   "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances",

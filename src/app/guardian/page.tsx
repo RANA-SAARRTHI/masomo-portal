@@ -93,7 +93,14 @@ export default async function GuardianOverview({ searchParams }: { searchParams:
         </Card>
 
         <Card>
-          <CardHeader title="Published results" />
+          <CardHeader
+            title="Published results"
+            action={
+              <Link href={`/report-card?studentId=${active.id}`} className="text-xs text-brand-700 underline">
+                Printable report card
+              </Link>
+            }
+          />
           {marks.length === 0 ? (
             <EmptyState title="No published results yet" />
           ) : (

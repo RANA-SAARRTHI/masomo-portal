@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Badge, Button, Input, Label, Select } from "@/components/ui";
@@ -23,7 +24,7 @@ export default async function StudentsPage() {
         <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader title={`${students.length} students`} />
-            <Table head={["Name", "Admission no.", "Class", "Guardians", "Status"]}>
+            <Table head={["Name", "Admission no.", "Class", "Guardians", "Status", ""]}>
               {students.map((s) => (
                 <tr key={s.id}>
                   <td className="py-2.5 px-3">
@@ -45,6 +46,13 @@ export default async function StudentsPage() {
                         <Badge tone={s.status === "ACTIVE" ? "emerald" : "rose"}>{s.status}</Badge>
                       </button>
                     </form>
+                  </td>
+                  <td className="py-2.5 px-3">
+                    {s.studentProfile && (
+                      <Link href={`/report-card?studentId=${s.studentProfile.id}`} className="text-xs text-brand-700 underline">
+                        Report card
+                      </Link>
+                    )}
                   </td>
                 </tr>
               ))}

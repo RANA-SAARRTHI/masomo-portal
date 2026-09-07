@@ -139,7 +139,13 @@ export async function updateTenantBranding(formData: FormData) {
   revalidatePath("/admin/settings");
 }
 
-export async function createTimetableSlot(formData: FormData) {
+function timesOverlap(aStart: string, aEnd: string, bStart: string, bEnd: string) {
+  return aStart < bEnd && bStart < aEnd;
+}
+
+// Throws on a scheduling clash instead of silently failing, so the calling
+// client component can show the admin exactly why the period was rejected.
+export async function createTimetableSlot(formData: FormData): Promise<{ ok: true } | never> {
   const { tenantId, userId } = await requireSession("/admin");
   const classGroupId = String(formData.get("classGroupId") ?? "");
   const subjectId = String(formData.get("subjectId") ?? "");
@@ -147,13 +153,56 @@ export async function createTimetableSlot(formData: FormData) {
   const startTime = String(formData.get("startTime") ?? "");
   const endTime = String(formData.get("endTime") ?? "");
   const room = String(formData.get("room") ?? "").trim();
-  if (!classGroupId || !subjectId || !startTime || !endTime) return;
+  if (!classGroupId || !subjectId || !startTime || !endTime) {
+    throw new Error("All fields except room are required.");
+  }
+  if (startTime >= endTime) {
+    throw new Error("Start time must be before end time.");
+  }
+
+  const [classSlots, teacherAllocations] = await Promise.all([
+    prisma.timetableSlot.findMany({ where: { classGroupId, dayOfWeek } }),
+    prisma.teacherAllocation.findMany({ where: { subjectId, classGroupId }, select: { teacherId: true } }),
+  ]);
+
+  const classClash = classSlots.find((s) => timesOverlap(startTime, endTime, s.startTime, s.endTime));
+  if (classClash) {
+    throw new Error(`This class already has a period from ${classClash.startTime} to ${classClash.endTime} on this day.`);
+  }
+
+  if (room) {
+    const roomClash = await prisma.timetableSlot.findFirst({
+      where: { dayOfWeek, room, classGroup: { tenantId } },
+    });
+    if (roomClash && timesOverlap(startTime, endTime, roomClash.startTime, roomClash.endTime)) {
+      throw new Error(`Room "${room}" is already booked from ${roomClash.startTime} to ${roomClash.endTime} on this day.`);
+    }
+  }
+
+  const teacherIds = teacherAllocations.map((a) => a.teacherId);
+  if (teacherIds.length > 0) {
+    const [sameDaySlots, allTeacherAllocations] = await Promise.all([
+      prisma.timetableSlot.findMany({
+        where: { dayOfWeek, classGroup: { tenantId }, classGroupId: { not: classGroupId } },
+        include: { classGroup: true },
+      }),
+      prisma.teacherAllocation.findMany({ where: { teacherId: { in: teacherIds } } }),
+    ]);
+    const busyPairs = new Set(allTeacherAllocations.map((a) => `${a.subjectId}|${a.classGroupId}`));
+    const teacherClash = sameDaySlots.find(
+      (s) => busyPairs.has(`${s.subjectId}|${s.classGroupId}`) && timesOverlap(startTime, endTime, s.startTime, s.endTime)
+    );
+    if (teacherClash) {
+      throw new Error(`The teacher for this subject is already scheduled with ${teacherClash.classGroup.name} at that time.`);
+    }
+  }
 
   await prisma.timetableSlot.create({
     data: { classGroupId, subjectId, dayOfWeek, startTime, endTime, room: room || null },
   });
   await logAction(tenantId, userId, "CREATE_TIMETABLE_SLOT", classGroupId);
   revalidatePath("/admin/timetable");
+  return { ok: true };
 }
 
 export async function deleteTimetableSlot(formData: FormData) {

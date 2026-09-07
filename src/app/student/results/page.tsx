@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { requireSession } from "@/lib/guard";
 import { getStudentProfile } from "@/lib/student-context";
 import { prisma } from "@/lib/prisma";
-import { PageHeader, Card, Table, EmptyState } from "@/components/ui";
+import { PageHeader, Card, Table, EmptyState, Button } from "@/components/ui";
 
 export default async function StudentResultsPage() {
   const { userId } = await requireSession("/student");
@@ -16,7 +17,15 @@ export default async function StudentResultsPage() {
 
   return (
     <div>
-      <PageHeader title="Results" subtitle="Only published, approved results appear here." />
+      <PageHeader
+        title="Results"
+        subtitle="Only published, approved results appear here."
+        action={
+          <Link href="/report-card">
+            <Button variant="secondary">View printable report card</Button>
+          </Link>
+        }
+      />
       <Card>
         {marks.length === 0 ? (
           <EmptyState title="No published results yet" body="Your results will appear here once approved by your teachers." />

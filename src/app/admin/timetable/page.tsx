@@ -1,8 +1,9 @@
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
-import { PageHeader, Card, CardHeader, Select, Input, Button, Label, EmptyState } from "@/components/ui";
+import { PageHeader, Card, Select, Button, Label, EmptyState } from "@/components/ui";
 import { TimetableGrid } from "@/components/timetable-grid";
-import { createTimetableSlot, deleteTimetableSlot } from "@/lib/actions/admin";
+import { deleteTimetableSlot } from "@/lib/actions/admin";
+import { AddPeriodForm } from "./add-period-form";
 
 export default async function TimetablePage({ searchParams }: { searchParams: Promise<{ classGroupId?: string }> }) {
   const { tenantId } = await requireSession("/admin");
@@ -64,45 +65,7 @@ export default async function TimetablePage({ searchParams }: { searchParams: Pr
           )}
         </div>
 
-        <form action={createTimetableSlot} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-6 gap-3 items-end">
-          <input type="hidden" name="classGroupId" value={classGroupId} />
-          <div className="sm:col-span-2">
-            <Label>Subject</Label>
-            <Select name="subjectId" required>
-              {subjects.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <div>
-            <Label>Day</Label>
-            <Select name="dayOfWeek" defaultValue="1">
-              <option value="1">Monday</option>
-              <option value="2">Tuesday</option>
-              <option value="3">Wednesday</option>
-              <option value="4">Thursday</option>
-              <option value="5">Friday</option>
-              <option value="6">Saturday</option>
-            </Select>
-          </div>
-          <div>
-            <Label>Start</Label>
-            <Input type="time" name="startTime" required defaultValue="08:00" />
-          </div>
-          <div>
-            <Label>End</Label>
-            <Input type="time" name="endTime" required defaultValue="08:40" />
-          </div>
-          <div>
-            <Label>Room</Label>
-            <Input name="room" placeholder="e.g. Lab 2" />
-          </div>
-          <div className="sm:col-span-6">
-            <Button type="submit">Add period</Button>
-          </div>
-        </form>
+        <AddPeriodForm classGroupId={classGroupId ?? ""} subjects={subjects} />
       </Card>
     </div>
   );

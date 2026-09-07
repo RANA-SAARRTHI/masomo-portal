@@ -23,15 +23,15 @@ const live = [
   "Teacher substitution: mark a period covered, only teachers genuinely free at that day and time are offered, and the substitute sees it on their dashboard",
   "Two-person result moderation: any admin or principal moderates a submitted assessment, but only a principal can take the final publish step — a real separation of duties, not just a status label",
   "Wellbeing, discipline, safeguarding and health case records, restricted to principals and administrators only — ordinary teachers have no route into this area at all",
+  "Offline-first attendance: a teacher's register is drafted on the device, saved locally if the connection drops, and submits automatically the moment it's back online — nothing is silently lost",
 ];
 
 const planned = [
-  "Multi-factor authentication for finance, admin and leadership roles",
-  "Real SMS and mobile money provider integration with signed callback verification",
-  "Offline-first attendance capture with sync when back online",
+  "Multi-factor authentication for finance, admin and leadership roles — needs no third party, next up",
+  "Real SMS and mobile money provider integration with signed callback verification — needs a contracted Ugandan provider (e.g. a licensed aggregator) and live API credentials",
   "Scheduled and exportable reports with watermarking for sensitive data",
-  "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances",
-  "Postgres in production with automated encrypted backups and tested restores",
+  "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances — needs a Redis instance to be provisioned",
+  "Postgres in production with automated encrypted backups and tested restores — needs a hosting/database provider decision",
 ];
 
 export default function RoadmapPage() {

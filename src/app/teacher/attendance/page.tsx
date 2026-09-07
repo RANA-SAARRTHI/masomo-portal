@@ -1,10 +1,8 @@
 import { requireSession } from "@/lib/guard";
 import { getTeacherAllocations } from "@/lib/teacher-context";
 import { prisma } from "@/lib/prisma";
-import { PageHeader, Card, CardHeader, Select, Input, Button, EmptyState } from "@/components/ui";
-import { submitAttendance } from "@/lib/actions/teacher";
-
-const STATUSES = ["PRESENT", "ABSENT", "LATE", "EXCUSED"];
+import { PageHeader, Card, Select, Input, Button, EmptyState } from "@/components/ui";
+import { AttendanceRegister } from "./attendance-register";
 
 export default async function AttendancePage({
   searchParams,
@@ -30,7 +28,7 @@ export default async function AttendancePage({
 
   return (
     <div>
-      <PageHeader title="Attendance" subtitle="Take today's register for your class." />
+      <PageHeader title="Attendance" subtitle="Take today's register for your class. Works offline and submits automatically once you're back online." />
 
       <Card>
         <form method="get" className="p-4 sm:p-5 flex flex-wrap gap-3 items-end border-b border-slate-100">
@@ -56,38 +54,14 @@ export default async function AttendancePage({
         {students.length === 0 ? (
           <EmptyState title="No students found" body="Select a class you are assigned to." />
         ) : (
-          <form action={submitAttendance} className="p-4 sm:p-5 space-y-3">
-            <input type="hidden" name="classGroupId" value={classGroupId} />
-            <input type="hidden" name="date" value={date} />
-            {students.map((s) => {
+          <AttendanceRegister
+            classGroupId={classGroupId ?? ""}
+            date={date}
+            students={students.map((s) => {
               const record = existingMap.get(s.id);
-              return (
-                <div key={s.id} className="flex flex-col sm:flex-row sm:items-center gap-2 border-b border-slate-50 pb-3 last:border-0">
-                  <input type="hidden" name="studentId" value={s.id} />
-                  <span className="font-medium text-slate-800 flex-1 min-w-[10rem]">{s.user.name}</span>
-                  <div className="flex flex-wrap gap-2">
-                    {STATUSES.map((st) => (
-                      <label
-                        key={st}
-                        className="text-xs px-2 py-1 rounded-full border border-slate-200 has-[:checked]:bg-brand-600 has-[:checked]:text-white has-[:checked]:border-brand-600 cursor-pointer"
-                      >
-                        <input
-                          type="radio"
-                          name={`status-${s.id}`}
-                          value={st}
-                          defaultChecked={record ? record.status === st : st === "PRESENT"}
-                          className="sr-only"
-                        />
-                        {st}
-                      </label>
-                    ))}
-                  </div>
-                  <Input name={`reason-${s.id}`} placeholder="Reason (optional)" defaultValue={record?.reason ?? ""} className="sm:w-48" />
-                </div>
-              );
+              return { id: s.id, name: s.user.name, status: record?.status ?? "PRESENT", reason: record?.reason ?? "" };
             })}
-            <Button type="submit">Submit register</Button>
-          </form>
+          />
         )}
       </Card>
     </div>

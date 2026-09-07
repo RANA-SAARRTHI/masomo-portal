@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { localDateKey } from "@/lib/dates";
 
 export const REPORT_TYPES = ["attendance", "fees", "students"] as const;
 export type ReportType = (typeof REPORT_TYPES)[number];
@@ -12,7 +13,7 @@ export async function generateReportRows(tenantId: string, type: ReportType): Pr
       take: 2000,
     });
     return records.map((r) => ({
-      date: r.date.toISOString().slice(0, 10),
+      date: localDateKey(r.date),
       student: r.student.user.name,
       admission_no: r.student.admissionNo,
       class: r.student.classGroup?.name ?? "",
@@ -38,7 +39,7 @@ export async function generateReportRows(tenantId: string, type: ReportType): Pr
         paid,
         balance: Math.max(inv.amount - paid, 0),
         status: inv.status,
-        date: inv.createdAt.toISOString().slice(0, 10),
+        date: localDateKey(inv.createdAt),
       };
     });
   }

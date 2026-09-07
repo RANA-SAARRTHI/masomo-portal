@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { localDateKey } from "@/lib/dates";
 
 export type AffectedPeriod = {
   timetableSlotId: string;
@@ -7,10 +8,7 @@ export type AffectedPeriod = {
 };
 
 const DAY_NAMES = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-function toDateKey(d: Date) {
-  return d.toISOString().slice(0, 10);
-}
+const toDateKey = localDateKey;
 
 // For an approved leave request, work out which of the teacher's timetable
 // periods fall inside the leave window and don't already have a substitute

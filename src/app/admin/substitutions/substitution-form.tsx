@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { Select, Input, Button, Label } from "@/components/ui";
 import { getEligibleSubstitutes, assignSubstitute } from "@/lib/actions/substitution";
+import { localDateKey } from "@/lib/dates";
 
 type SlotOption = { id: string; label: string; teacherName: string };
 
@@ -16,7 +17,7 @@ export function SubstitutionForm({
   initialDate?: string;
 }) {
   const [slotId, setSlotId] = useState(initialSlotId && slots.some((s) => s.id === initialSlotId) ? initialSlotId : slots[0]?.id ?? "");
-  const [date, setDate] = useState(initialDate ?? new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(initialDate ?? localDateKey(new Date()));
   const [eligible, setEligible] = useState<{ id: string; name: string }[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);

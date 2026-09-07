@@ -3,6 +3,7 @@ import { getTeacherAllocations } from "@/lib/teacher-context";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, Select, Input, Button, EmptyState } from "@/components/ui";
 import { AttendanceRegister } from "./attendance-register";
+import { localDateKey } from "@/lib/dates";
 
 export default async function AttendancePage({
   searchParams,
@@ -15,7 +16,7 @@ export default async function AttendancePage({
   const classGroups = Array.from(new Map((staff?.allocations ?? []).map((a) => [a.classGroup.id, a.classGroup])).values());
 
   const classGroupId = sp.classGroupId ?? classGroups[0]?.id;
-  const date = sp.date ?? new Date().toISOString().slice(0, 10);
+  const date = sp.date ?? localDateKey(new Date());
 
   const students = classGroupId
     ? await prisma.studentProfile.findMany({ where: { classGroupId }, include: { user: true }, orderBy: { user: { name: "asc" } } })

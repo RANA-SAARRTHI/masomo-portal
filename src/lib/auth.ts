@@ -3,9 +3,18 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { isLockedOut, recordFailedAttempt, clearAttempts } from "@/lib/rate-limit";
+import { verifyTotp } from "@/lib/totp";
 
 class LockedOutError extends CredentialsSignin {
   code = "locked_out";
+}
+
+class MfaRequiredError extends CredentialsSignin {
+  code = "mfa_required";
+}
+
+class MfaInvalidError extends CredentialsSignin {
+  code = "mfa_invalid";
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -17,10 +26,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        totp: { label: "Authenticator code", type: "text" },
       },
       async authorize(credentials) {
         const email = (credentials?.email as string | undefined)?.toLowerCase().trim();
         const password = credentials?.password as string | undefined;
+        const totp = (credentials?.totp as string | undefined)?.trim();
         if (!email || !password) return null;
 
         const lockStatus = isLockedOut(email);
@@ -50,6 +61,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
           if (result.locked) throw new LockedOutError();
           return null;
+        }
+
+        if (user.mfaEnabled && user.mfaSecret) {
+          if (!totp) {
+            throw new MfaRequiredError();
+          }
+          if (!verifyTotp(user.mfaSecret, user.email, totp)) {
+            const result = recordFailedAttempt(email);
+            await prisma.auditLog.create({
+              data: { tenantId: user.tenantId, actorId: user.id, action: "MFA_CODE_INVALID", target: user.id, outcome: "FAILURE" },
+            });
+            if (result.locked) throw new LockedOutError();
+            throw new MfaInvalidError();
+          }
         }
 
         clearAttempts(email);

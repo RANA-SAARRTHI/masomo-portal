@@ -24,10 +24,10 @@ const live = [
   "Two-person result moderation: any admin or principal moderates a submitted assessment, but only a principal can take the final publish step — a real separation of duties, not just a status label",
   "Wellbeing, discipline, safeguarding and health case records, restricted to principals and administrators only — ordinary teachers have no route into this area at all",
   "Offline-first attendance: a teacher's register is drafted on the device, saved locally if the connection drops, and submits automatically the moment it's back online — nothing is silently lost",
+  "Two-factor authentication (any standard authenticator app) that anyone can turn on from Account security — enforced at login the moment it's enabled, verified end to end including wrong-code and no-code rejection",
 ];
 
 const planned = [
-  "Multi-factor authentication for finance, admin and leadership roles — needs no third party, next up",
   "Real SMS and mobile money provider integration with signed callback verification — needs a contracted Ugandan provider (e.g. a licensed aggregator) and live API credentials",
   "Scheduled and exportable reports with watermarking for sensitive data",
   "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances — needs a Redis instance to be provisioned",

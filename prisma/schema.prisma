@@ -44,6 +44,8 @@ model User {
   role         String
   status       String   @default("ACTIVE") // INVITED, ACTIVE, LOCKED, SUSPENDED, DISABLED
   createdAt    DateTime @default(now())
+  mfaSecret    String?
+  mfaEnabled   Boolean  @default(false)
 
   studentProfile   StudentProfile?
   staffProfile     StaffProfile?

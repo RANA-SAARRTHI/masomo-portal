@@ -20,6 +20,8 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [totp, setTotp] = useState("");
+  const [needsMfa, setNeedsMfa] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,11 +29,16 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const res = await signIn("credentials", { email, password, redirect: false });
+    const res = await signIn("credentials", { email, password, totp, redirect: false });
     setLoading(false);
     if (res?.error) {
       if (res.code === "locked_out") {
         setError("Too many failed attempts. This account is temporarily locked — please try again in 15 minutes.");
+      } else if (res.code === "mfa_required") {
+        setNeedsMfa(true);
+      } else if (res.code === "mfa_invalid") {
+        setNeedsMfa(true);
+        setError("That code didn't match. Check your authenticator app and try again.");
       } else {
         setError("Incorrect email or password. Please try again.");
       }
@@ -55,15 +62,44 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
               <Label>Email</Label>
-              <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@school.ug" />
+              <Input
+                type="email"
+                required
+                disabled={needsMfa}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@school.ug"
+              />
             </div>
             <div>
               <Label>Password</Label>
-              <Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+              <Input
+                type="password"
+                required
+                disabled={needsMfa}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+              />
             </div>
+            {needsMfa && (
+              <div>
+                <Label>Authenticator code</Label>
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  autoFocus
+                  required
+                  value={totp}
+                  onChange={(e) => setTotp(e.target.value)}
+                  placeholder="6-digit code"
+                />
+                <p className="text-xs text-slate-400 mt-1">This account requires a code from your authenticator app.</p>
+              </div>
+            )}
             {error ? <p className="text-sm text-rose-600">{error}</p> : null}
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Signing in..." : needsMfa ? "Verify and sign in" : "Sign in"}
             </Button>
           </form>
           <p className="text-xs text-slate-400 mt-6">

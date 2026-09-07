@@ -70,6 +70,9 @@ export function DashboardShell({
           )}
           <div className="flex items-center gap-3 shrink-0">
             <span className="text-sm text-slate-600 hidden sm:inline">{userName}</span>
+            <Link href="/account/security" className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 hidden sm:inline">
+              Security
+            </Link>
             <SignOutButton />
           </div>
         </header>

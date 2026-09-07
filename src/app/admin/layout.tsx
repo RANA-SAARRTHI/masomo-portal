@@ -10,6 +10,7 @@ const nav = [
   { href: "/admin/timetable", label: "Timetable" },
   { href: "/admin/substitutions", label: "Substitutions" },
   { href: "/admin/moderation", label: "Result moderation" },
+  { href: "/admin/wellbeing", label: "Wellbeing" },
   { href: "/admin/announcements", label: "Announcements" },
   { href: "/admin/reports", label: "Reports" },
   { href: "/admin/settings", label: "Settings" },

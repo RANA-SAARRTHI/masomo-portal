@@ -214,12 +214,44 @@ export async function deleteTimetableSlot(formData: FormData) {
   revalidatePath("/admin/timetable");
 }
 
-export async function approveAndPublishAssessment(formData: FormData) {
+// Two-person check before a result reaches a student or guardian: any
+// admin/principal can moderate a submitted assessment, but only a principal
+// (or platform owner) can take the final publish step — the same person
+// cannot both moderate and publish their own moderation by role alone,
+// since moderation is open to admins who are barred from publishing.
+export async function moderateAssessment(formData: FormData) {
   const { tenantId, userId } = await requireSession("/admin");
   const assessmentId = String(formData.get("assessmentId") ?? "");
-  if (!assessmentId) return;
-  await prisma.assessment.update({ where: { id: assessmentId }, data: { state: "PUBLISHED", publishedAt: new Date() } });
-  await logAction(tenantId, userId, "APPROVE_AND_PUBLISH_ASSESSMENT", assessmentId);
+  const note = String(formData.get("note") ?? "").trim();
+  if (!assessmentId) throw new Error("Missing assessment.");
+
+  const assessment = await prisma.assessment.findUniqueOrThrow({ where: { id: assessmentId } });
+  if (assessment.state !== "SUBMITTED") throw new Error("This assessment is not awaiting moderation.");
+
+  await prisma.assessment.update({
+    where: { id: assessmentId },
+    data: { state: "APPROVED", moderatedById: userId, moderationNote: note || null, moderatedAt: new Date() },
+  });
+  await logAction(tenantId, userId, "MODERATE_ASSESSMENT", assessmentId);
+  revalidatePath("/admin/moderation");
+}
+
+export async function publishAssessment(formData: FormData) {
+  const { tenantId, userId, role } = await requireSession("/admin");
+  const assessmentId = String(formData.get("assessmentId") ?? "");
+  if (!assessmentId) throw new Error("Missing assessment.");
+  if (role !== "PRINCIPAL" && role !== "PLATFORM_OWNER") {
+    throw new Error("Only a principal can publish results.");
+  }
+
+  const assessment = await prisma.assessment.findUniqueOrThrow({ where: { id: assessmentId } });
+  if (assessment.state !== "APPROVED") throw new Error("This assessment must be moderated before it can be published.");
+
+  await prisma.assessment.update({
+    where: { id: assessmentId },
+    data: { state: "PUBLISHED", publishedById: userId, publishedAt: new Date() },
+  });
+  await logAction(tenantId, userId, "PUBLISH_ASSESSMENT", assessmentId);
   revalidatePath("/admin/moderation");
 }
 
@@ -228,7 +260,10 @@ export async function sendBackToTeacher(formData: FormData) {
   const assessmentId = String(formData.get("assessmentId") ?? "");
   const reason = String(formData.get("reason") ?? "").trim();
   if (!assessmentId) return;
-  await prisma.assessment.update({ where: { id: assessmentId }, data: { state: "OPEN" } });
+  await prisma.assessment.update({
+    where: { id: assessmentId },
+    data: { state: "OPEN", moderatedById: null, moderationNote: null, moderatedAt: null },
+  });
   await logAction(tenantId, userId, `SEND_BACK_TO_TEACHER${reason ? ": " + reason : ""}`, assessmentId);
   revalidatePath("/admin/moderation");
 }

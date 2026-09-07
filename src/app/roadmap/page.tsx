@@ -21,14 +21,14 @@ const live = [
   "Printable, school-branded report cards with grades, attendance and signature lines — one click from student, guardian or admin views",
   "Timetable clash detection: rejects overlapping periods for the same class, room or teacher, with a plain-language reason",
   "Teacher substitution: mark a period covered, only teachers genuinely free at that day and time are offered, and the substitute sees it on their dashboard",
+  "Two-person result moderation: any admin or principal moderates a submitted assessment, but only a principal can take the final publish step — a real separation of duties, not just a status label",
+  "Wellbeing, discipline, safeguarding and health case records, restricted to principals and administrators only — ordinary teachers have no route into this area at all",
 ];
 
 const planned = [
   "Multi-factor authentication for finance, admin and leadership roles",
   "Real SMS and mobile money provider integration with signed callback verification",
   "Offline-first attendance capture with sync when back online",
-  "Full department-then-exams-office moderation chain (currently a single review-and-publish step)",
-  "Wellbeing, discipline and health records with restricted, need-to-know access",
   "Scheduled and exportable reports with watermarking for sensitive data",
   "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances",
   "Postgres in production with automated encrypted backups and tested restores",

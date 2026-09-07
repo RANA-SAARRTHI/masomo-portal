@@ -82,7 +82,9 @@ model StaffProfile {
   title            String?
   employmentStatus String  @default("ACTIVE")
 
-  allocations TeacherAllocation[]
+  allocations               TeacherAllocation[]
+  substitutionsAsOriginal   Substitution[]      @relation("OriginalTeacher")
+  substitutionsAsSubstitute Substitution[]      @relation("SubstituteTeacher")
 }
 
 model GuardianLink {
@@ -169,6 +171,24 @@ model TimetableSlot {
   startTime    String // "08:00"
   endTime      String // "08:40"
   room         String?
+
+  substitutions Substitution[]
+}
+
+model Substitution {
+  id                  String        @id @default(cuid())
+  timetableSlotId     String
+  timetableSlot       TimetableSlot @relation(fields: [timetableSlotId], references: [id])
+  date                DateTime
+  originalTeacherId   String
+  originalTeacher     StaffProfile  @relation("OriginalTeacher", fields: [originalTeacherId], references: [id])
+  substituteTeacherId String
+  substituteTeacher   StaffProfile  @relation("SubstituteTeacher", fields: [substituteTeacherId], references: [id])
+  reason              String?
+  createdById         String
+  createdAt           DateTime      @default(now())
+
+  @@unique([timetableSlotId, date])
 }
 
 model AttendanceRecord {

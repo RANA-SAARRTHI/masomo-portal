@@ -20,6 +20,7 @@ const live = [
   "Installable PWA shell for low-end Android phones",
   "Printable, school-branded report cards with grades, attendance and signature lines — one click from student, guardian or admin views",
   "Timetable clash detection: rejects overlapping periods for the same class, room or teacher, with a plain-language reason",
+  "Teacher substitution: mark a period covered, only teachers genuinely free at that day and time are offered, and the substitute sees it on their dashboard",
 ];
 
 const planned = [
@@ -27,7 +28,6 @@ const planned = [
   "Real SMS and mobile money provider integration with signed callback verification",
   "Offline-first attendance capture with sync when back online",
   "Full department-then-exams-office moderation chain (currently a single review-and-publish step)",
-  "A substitution workflow for absent teachers",
   "Wellbeing, discipline and health records with restricted, need-to-know access",
   "Scheduled and exportable reports with watermarking for sensitive data",
   "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances",

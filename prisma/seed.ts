@@ -56,6 +56,17 @@ async function main() {
     },
     include: { staffProfile: true },
   });
+  const secondTeacherUser = await prisma.user.create({
+    data: {
+      tenantId: tenant.id,
+      name: "Namatovu Christine",
+      email: "teacher2@masomo-demo.ug",
+      role: "TEACHER",
+      passwordHash,
+      staffProfile: { create: { staffNo: "ST-002", department: "Languages", title: "Teacher" } },
+    },
+    include: { staffProfile: true },
+  });
   const librarian = await prisma.user.create({
     data: { tenantId: tenant.id, name: "Namuli Joan", email: "librarian@masomo-demo.ug", role: "LIBRARIAN", passwordHash },
   });
@@ -166,6 +177,24 @@ async function main() {
       { classGroupId: classS4East.id, subjectId: math.id, dayOfWeek: 3, startTime: "08:00", endTime: "08:40", room: "Room 4" },
       { classGroupId: classS3West.id, subjectId: math.id, dayOfWeek: 2, startTime: "10:20", endTime: "11:00", room: "Room 2" },
     ],
+  });
+
+  const mondayMathSlot = await prisma.timetableSlot.findFirstOrThrow({
+    where: { classGroupId: classS4East.id, subjectId: math.id, dayOfWeek: 1 },
+  });
+  const nextMonday = new Date();
+  nextMonday.setHours(0, 0, 0, 0);
+  const daysUntilMonday = (8 - nextMonday.getDay()) % 7 || 7;
+  nextMonday.setDate(nextMonday.getDate() + (nextMonday.getDay() === 1 ? 0 : daysUntilMonday));
+  await prisma.substitution.create({
+    data: {
+      timetableSlotId: mondayMathSlot.id,
+      date: nextMonday,
+      originalTeacherId: teacherUser.staffProfile!.id,
+      substituteTeacherId: secondTeacherUser.staffProfile!.id,
+      reason: "Attending a training workshop",
+      createdById: admin.id,
+    },
   });
 
   await prisma.contentItem.create({

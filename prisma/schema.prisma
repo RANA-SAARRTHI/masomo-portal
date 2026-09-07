@@ -31,6 +31,7 @@ model Tenant {
   libraryItems     LibraryItem[]
   routes           TransportRoute[]
   wellbeingRecords WellbeingRecord[]
+  leaveRequests    LeaveRequest[]
 }
 
 model User {
@@ -89,6 +90,26 @@ model StaffProfile {
   allocations               TeacherAllocation[]
   substitutionsAsOriginal   Substitution[]      @relation("OriginalTeacher")
   substitutionsAsSubstitute Substitution[]      @relation("SubstituteTeacher")
+  leaveRequests             LeaveRequest[]
+}
+
+model LeaveRequest {
+  id           String       @id @default(cuid())
+  tenantId     String
+  tenant       Tenant       @relation(fields: [tenantId], references: [id])
+  staffId      String
+  staff        StaffProfile @relation(fields: [staffId], references: [id])
+  category     String // SICK, ANNUAL, COMPASSIONATE, MATERNITY_PATERNITY, OTHER
+  startDate    DateTime
+  endDate      DateTime
+  reason       String?
+  status       String       @default("PENDING") // PENDING, APPROVED, DECLINED
+  decidedById  String?
+  decisionNote String?
+  decidedAt    DateTime?
+  createdAt    DateTime     @default(now())
+
+  @@index([tenantId, status])
 }
 
 model GuardianLink {

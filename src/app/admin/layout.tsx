@@ -11,6 +11,8 @@ const nav = [
   { href: "/admin/substitutions", label: "Substitutions" },
   { href: "/admin/moderation", label: "Result moderation" },
   { href: "/admin/wellbeing", label: "Wellbeing" },
+  { href: "/admin/leave", label: "Staff leave" },
+  { href: "/admin/quality", label: "Data quality" },
   { href: "/admin/announcements", label: "Announcements" },
   { href: "/admin/reports", label: "Reports" },
   { href: "/admin/settings", label: "Settings" },

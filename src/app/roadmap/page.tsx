@@ -25,11 +25,14 @@ const live = [
   "Wellbeing, discipline, safeguarding and health case records, restricted to principals and administrators only — ordinary teachers have no route into this area at all",
   "Offline-first attendance: a teacher's register is drafted on the device, saved locally if the connection drops, and submits automatically the moment it's back online — nothing is silently lost",
   "Two-factor authentication (any standard authenticator app) that anyone can turn on from Account security — enforced at login the moment it's enabled, verified end to end including wrong-code and no-code rejection",
+  "Staff leave requests: any staff member can request sick, annual, compassionate or maternity/paternity leave and track its status; admins and principals approve or decline with a note",
+  "A data-quality dashboard flagging missing attendance registers, students with no linked guardian, assessments with unentered marks, invoices unpaid for 30+ days, and privileged accounts that have never logged in",
 ];
 
 const planned = [
   "Real SMS and mobile money provider integration with signed callback verification — needs a contracted Ugandan provider (e.g. a licensed aggregator) and live API credentials",
   "Scheduled and exportable reports with watermarking for sensitive data",
+  "Leave approval automatically triggering a substitution suggestion for affected timetable periods",
   "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances — needs a Redis instance to be provisioned",
   "Postgres in production with automated encrypted backups and tested restores — needs a hosting/database provider decision",
 ];

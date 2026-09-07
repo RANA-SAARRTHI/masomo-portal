@@ -1,0 +1,68 @@
+import Link from "next/link";
+
+const live = [
+  "Role-based login for principal, admin, teacher, student, guardian, bursar, librarian, transport officer",
+  "Multi-tenant data model with server-side tenant and role scoping on every page",
+  "Student admission, staff records, class and subject setup, teacher allocation",
+  "Attendance register with present/absent/late/excused and per-student reasons",
+  "Learning materials and assignments with student submission and teacher grading",
+  "Marks entry with blank/absent/exempt states, and a publish step so students only see approved results",
+  "Announcements with audience targeting and priority, plus class-level teacher messages",
+  "Fees: fee structures, invoices, cash/bank/mobile-money payment recording, reversal with reason",
+  "Guardian portal with a child switcher across multiple linked children",
+  "Library catalogue with issue/return tracking, and a basic transport route/assignment module",
+  "Attendance, enrolment and fee-collection charts on the admin reports page",
+  "Audit log of logins and sensitive actions",
+  "Installable PWA shell for low-end Android phones",
+];
+
+const planned = [
+  "Multi-factor authentication for finance, admin and leadership roles",
+  "Real SMS and mobile money provider integration with signed callback verification",
+  "Automated report card PDF generation with the school's own branding",
+  "Offline-first attendance capture with sync when back online",
+  "Full department moderation workflow before results are published",
+  "Timetable builder with clash detection and substitution workflow",
+  "Wellbeing, discipline and health records with restricted, need-to-know access",
+  "Scheduled and exportable reports with watermarking for sensitive data",
+  "Bulk CSV import for admissions and marks with a validation-only dry run",
+  "Postgres in production with automated encrypted backups and tested restores",
+];
+
+export default function RoadmapPage() {
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <Link href="/" className="text-sm text-brand-700 hover:underline">
+        ← Back home
+      </Link>
+      <h1 className="text-2xl font-semibold text-slate-900 mt-4">What's built, and what's next</h1>
+      <p className="text-slate-600 mt-2">
+        A screen that looks finished is not the same as a screen that is finished. Here is an honest split
+        between what works today and what's still on the roadmap.
+      </p>
+
+      <div className="grid sm:grid-cols-2 gap-6 mt-8">
+        <div>
+          <h2 className="font-semibold text-brand-700 mb-3">Live today</h2>
+          <ul className="space-y-2">
+            {live.map((item) => (
+              <li key={item} className="text-sm text-slate-700 bg-brand-50 rounded-lg px-3 py-2">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2 className="font-semibold text-amber-700 mb-3">Planned next</h2>
+          <ul className="space-y-2">
+            {planned.map((item) => (
+              <li key={item} className="text-sm text-slate-700 bg-amber-50 rounded-lg px-3 py-2">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}

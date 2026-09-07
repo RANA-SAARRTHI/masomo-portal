@@ -1,0 +1,12 @@
+{
+  "name": "Masomo School Portal",
+  "short_name": "Masomo",
+  "description": "School management portal for Ugandan institutions",
+  "start_url": "/redirect",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f766e",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

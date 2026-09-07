@@ -73,6 +73,7 @@ All demo accounts use the password `Masomo@2026`.
 | Principal | principal@masomo-demo.ug |
 | Administrator | admin@masomo-demo.ug |
 | Teacher | teacher@masomo-demo.ug |
+| Teacher (second, for substitution cover) | teacher2@masomo-demo.ug |
 | Bursar | bursar@masomo-demo.ug |
 | Student | student@masomo-demo.ug |
 | Guardian | guardian@masomo-demo.ug |

@@ -16,10 +16,13 @@ export async function addRoute(formData: FormData) {
 }
 
 export async function assignStudent(formData: FormData) {
+  const { tenantId } = await requireSession("/transport");
   const routeId = String(formData.get("routeId") ?? "");
   const studentName = String(formData.get("studentName") ?? "").trim();
   const stop = String(formData.get("stop") ?? "").trim();
   if (!routeId || !studentName) return;
+  const route = await prisma.transportRoute.findFirst({ where: { id: routeId, tenantId } });
+  if (!route) throw new Error("Route not found.");
   await prisma.transportAssignment.create({ data: { routeId, studentName, stop } });
   revalidatePath("/transport");
 }

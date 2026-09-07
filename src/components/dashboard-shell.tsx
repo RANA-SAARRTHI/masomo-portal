@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ROLE_LABELS, type RoleName } from "@/lib/roles";
 import { SignOutButton } from "@/components/sign-out-button";
+import { GlobalSearch } from "@/components/global-search";
 
 export type NavItem = { href: string; label: string; icon?: string };
 
@@ -62,6 +63,11 @@ export function DashboardShell({
               </>
             ) : null}
           </div>
+          {(role === "ADMIN" || role === "PRINCIPAL" || role === "PLATFORM_OWNER") && (
+            <div className="hidden md:block flex-1 max-w-xs mx-4">
+              <GlobalSearch />
+            </div>
+          )}
           <div className="flex items-center gap-3 shrink-0">
             <span className="text-sm text-slate-600 hidden sm:inline">{userName}</span>
             <SignOutButton />

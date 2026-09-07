@@ -4,6 +4,7 @@ import { DashboardShell } from "@/components/dashboard-shell";
 const nav = [
   { href: "/admin", label: "Overview" },
   { href: "/admin/students", label: "Students" },
+  { href: "/admin/import", label: "Bulk import" },
   { href: "/admin/staff", label: "Staff" },
   { href: "/admin/classes", label: "Classes & subjects" },
   { href: "/admin/timetable", label: "Timetable" },

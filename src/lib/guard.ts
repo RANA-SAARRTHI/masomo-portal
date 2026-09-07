@@ -2,6 +2,18 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { canAccessSection, type RoleName } from "@/lib/roles";
 
+export async function requireAnySession() {
+  const session = await auth();
+  if (!session?.user) redirect("/login");
+  return {
+    role: (session.user as any).role as RoleName,
+    userId: (session.user as any).id as string,
+    tenantId: (session.user as any).tenantId as string,
+    tenantName: (session.user as any).tenantName as string,
+    name: session.user.name ?? "",
+  };
+}
+
 export async function requireSession(section: string) {
   const session = await auth();
   if (!session?.user) redirect("/login");

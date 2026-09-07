@@ -84,6 +84,9 @@ export async function saveMarks(formData: FormData) {
   const studentIds = formData.getAll("studentId").map(String);
   if (!assessmentId) return;
 
+  const assessment = await prisma.assessment.findUnique({ where: { id: assessmentId } });
+  if (!assessment || assessment.state !== "OPEN") return; // locked once submitted for moderation
+
   for (const studentId of studentIds) {
     const stateRaw = String(formData.get(`state-${studentId}`) ?? "ENTERED");
     const scoreRaw = String(formData.get(`score-${studentId}`) ?? "");
@@ -109,11 +112,16 @@ export async function createAssessment(formData: FormData) {
   revalidatePath("/teacher/marks");
 }
 
-export async function publishAssessment(formData: FormData) {
-  await requireSession("/teacher");
+// Teachers no longer publish their own results directly. They submit for
+// moderation; a principal or delegated approver reviews and publishes
+// (see submitForModeration / approveAndPublish / sendBackToTeacher below),
+// matching the spec's staged closure: teacher submit -> review -> approve -> publish.
+export async function submitForModeration(formData: FormData) {
+  const { userId, tenantId } = await requireSession("/teacher");
   const assessmentId = String(formData.get("assessmentId") ?? "");
   if (!assessmentId) return;
-  await prisma.assessment.update({ where: { id: assessmentId }, data: { state: "PUBLISHED", publishedAt: new Date() } });
+  await prisma.assessment.update({ where: { id: assessmentId }, data: { state: "SUBMITTED" } });
+  await prisma.auditLog.create({ data: { tenantId, actorId: userId, action: "SUBMIT_FOR_MODERATION", target: assessmentId } });
   revalidatePath("/teacher/marks");
 }
 

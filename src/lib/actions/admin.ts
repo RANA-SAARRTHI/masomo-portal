@@ -165,6 +165,25 @@ export async function deleteTimetableSlot(formData: FormData) {
   revalidatePath("/admin/timetable");
 }
 
+export async function approveAndPublishAssessment(formData: FormData) {
+  const { tenantId, userId } = await requireSession("/admin");
+  const assessmentId = String(formData.get("assessmentId") ?? "");
+  if (!assessmentId) return;
+  await prisma.assessment.update({ where: { id: assessmentId }, data: { state: "PUBLISHED", publishedAt: new Date() } });
+  await logAction(tenantId, userId, "APPROVE_AND_PUBLISH_ASSESSMENT", assessmentId);
+  revalidatePath("/admin/moderation");
+}
+
+export async function sendBackToTeacher(formData: FormData) {
+  const { tenantId, userId } = await requireSession("/admin");
+  const assessmentId = String(formData.get("assessmentId") ?? "");
+  const reason = String(formData.get("reason") ?? "").trim();
+  if (!assessmentId) return;
+  await prisma.assessment.update({ where: { id: assessmentId }, data: { state: "OPEN" } });
+  await logAction(tenantId, userId, `SEND_BACK_TO_TEACHER${reason ? ": " + reason : ""}`, assessmentId);
+  revalidatePath("/admin/moderation");
+}
+
 export async function postAnnouncement(formData: FormData) {
   const { tenantId, userId, name } = await requireSession("/admin");
   const title = String(formData.get("title") ?? "").trim();

@@ -2,7 +2,15 @@ import { requireSession } from "@/lib/guard";
 import { getTeacherAllocations } from "@/lib/teacher-context";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Select, Input, Button, Label, EmptyState, Badge } from "@/components/ui";
-import { createAssessment, saveMarks, publishAssessment } from "@/lib/actions/teacher";
+import { createAssessment, saveMarks, submitForModeration } from "@/lib/actions/teacher";
+
+const STATE_TONE: Record<string, "emerald" | "amber" | "slate" | "rose" | "brand"> = {
+  OPEN: "amber",
+  SUBMITTED: "brand",
+  MODERATION: "brand",
+  APPROVED: "brand",
+  PUBLISHED: "emerald",
+};
 
 export default async function MarksPage({ searchParams }: { searchParams: Promise<{ assessmentId?: string }> }) {
   const { userId, tenantId } = await requireSession("/teacher");
@@ -30,7 +38,7 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
 
   return (
     <div>
-      <PageHeader title="Marks" subtitle="Enter marks, then publish once ready." />
+      <PageHeader title="Marks" subtitle="Enter marks, then submit for moderation. A principal or delegated approver publishes." />
 
       <div className="grid lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2">
@@ -54,15 +62,20 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
           ) : (
             <>
               <div className="px-4 sm:px-5 pt-4 flex items-center gap-2">
-                <Badge tone={active.state === "PUBLISHED" ? "emerald" : "amber"}>{active.state}</Badge>
+                <Badge tone={STATE_TONE[active.state] ?? "slate"}>{active.state}</Badge>
                 <span className="text-sm text-slate-500">Max mark: {active.maxMark}</span>
-                {active.state !== "PUBLISHED" && (
-                  <form action={publishAssessment} className="ml-auto">
+                {active.state === "OPEN" && (
+                  <form action={submitForModeration} className="ml-auto">
                     <input type="hidden" name="assessmentId" value={active.id} />
                     <Button type="submit" variant="secondary">
-                      Publish results
+                      Submit for moderation
                     </Button>
                   </form>
+                )}
+                {active.state !== "OPEN" && (
+                  <span className="ml-auto text-xs text-slate-400">
+                    {active.state === "PUBLISHED" ? "Published — visible to students and guardians." : "Awaiting review before publication."}
+                  </span>
                 )}
               </div>
               <form action={saveMarks} className="p-4 sm:p-5 space-y-2">
@@ -73,17 +86,25 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
                     <div key={s.id} className="flex items-center gap-3 border-b border-slate-50 pb-2 last:border-0">
                       <input type="hidden" name="studentId" value={s.id} />
                       <span className="flex-1 text-sm font-medium text-slate-800">{s.user.name}</span>
-                      <Select name={`state-${s.id}`} defaultValue={m?.state ?? "ENTERED"} className="w-32">
+                      <Select name={`state-${s.id}`} defaultValue={m?.state ?? "ENTERED"} className="w-32" disabled={active.state !== "OPEN"}>
                         <option value="ENTERED">Score</option>
                         <option value="ABSENT">Absent</option>
                         <option value="EXEMPT">Exempt</option>
                         <option value="BLANK">Not entered</option>
                       </Select>
-                      <Input name={`score-${s.id}`} type="number" step="0.5" defaultValue={m?.score ?? ""} className="w-24" placeholder="0" />
+                      <Input
+                        name={`score-${s.id}`}
+                        type="number"
+                        step="0.5"
+                        defaultValue={m?.score ?? ""}
+                        className="w-24"
+                        placeholder="0"
+                        disabled={active.state !== "OPEN"}
+                      />
                     </div>
                   );
                 })}
-                <Button type="submit" disabled={active.state === "PUBLISHED"}>
+                <Button type="submit" disabled={active.state !== "OPEN"}>
                   Save marks
                 </Button>
               </form>

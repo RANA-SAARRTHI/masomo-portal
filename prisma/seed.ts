@@ -148,6 +148,16 @@ async function main() {
     });
   }
 
+  const biologyAssessment = await prisma.assessment.create({
+    data: { termId: term.id, subjectId: biology.id, name: "End of Term Test", maxMark: 100, weight: 1, state: "SUBMITTED" },
+  });
+  for (const s of [...students, demoLoginStudent]) {
+    if (s.studentProfile!.classGroupId !== classS4East.id) continue;
+    await prisma.markEntry.create({
+      data: { assessmentId: biologyAssessment.id, studentId: s.studentProfile!.id, score: 55 + Math.floor(Math.random() * 40), state: "ENTERED" },
+    });
+  }
+
   await prisma.timetableSlot.createMany({
     data: [
       { classGroupId: classS4East.id, subjectId: math.id, dayOfWeek: 1, startTime: "08:00", endTime: "08:40", room: "Room 4" },

@@ -30,7 +30,11 @@ export default function LoginPage() {
     const res = await signIn("credentials", { email, password, redirect: false });
     setLoading(false);
     if (res?.error) {
-      setError("Incorrect email or password. Please try again.");
+      if (res.code === "locked_out") {
+        setError("Too many failed attempts. This account is temporarily locked — please try again in 15 minutes.");
+      } else {
+        setError("Incorrect email or password. Please try again.");
+      }
       return;
     }
     router.push("/redirect");

@@ -1,7 +1,12 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { isLockedOut, recordFailedAttempt, clearAttempts } from "@/lib/rate-limit";
+
+class LockedOutError extends CredentialsSignin {
+  code = "locked_out";
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -18,14 +23,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const password = credentials?.password as string | undefined;
         if (!email || !password) return null;
 
+        const lockStatus = isLockedOut(email);
+        if (lockStatus.locked) {
+          throw new LockedOutError();
+        }
+
         const user = await prisma.user.findFirst({
           where: { email, status: { not: "DISABLED" } },
           include: { tenant: true },
         });
-        if (!user) return null;
 
-        const valid = await bcrypt.compare(password, user.passwordHash);
-        if (!valid) return null;
+        const valid = user ? await bcrypt.compare(password, user.passwordHash) : false;
+
+        if (!user || !valid) {
+          const result = recordFailedAttempt(email);
+          if (user) {
+            await prisma.auditLog.create({
+              data: {
+                tenantId: user.tenantId,
+                actorId: user.id,
+                action: result.locked ? "LOGIN_LOCKED_OUT" : "LOGIN_FAILED",
+                target: user.id,
+                outcome: "FAILURE",
+              },
+            });
+          }
+          if (result.locked) throw new LockedOutError();
+          return null;
+        }
+
+        clearAttempts(email);
 
         await prisma.auditLog.create({
           data: {

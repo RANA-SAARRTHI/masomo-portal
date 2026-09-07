@@ -8,6 +8,7 @@ const nav = [
   { href: "/admin/staff", label: "Staff" },
   { href: "/admin/classes", label: "Classes & subjects" },
   { href: "/admin/timetable", label: "Timetable" },
+  { href: "/admin/moderation", label: "Result moderation" },
   { href: "/admin/announcements", label: "Announcements" },
   { href: "/admin/reports", label: "Reports" },
   { href: "/admin/settings", label: "Settings" },

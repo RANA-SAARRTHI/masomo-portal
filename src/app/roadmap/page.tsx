@@ -29,12 +29,12 @@ const live = [
   "A data-quality dashboard flagging missing attendance registers, students with no linked guardian, assessments with unentered marks, invoices unpaid for 30+ days, and privileged accounts that have never logged in",
   "Watermarked, audited exports: every download embeds who requested it, when and why, and is logged; scheduled weekly/monthly reports can only be pointed at a recipient whose role already has that access — a schedule can never grant extra permission",
   "Dark mode: an explicit toggle in every dashboard header, remembered per device — off by default so nobody's screen changes on its own. The printable report card always stays white-background, even with dark mode on, since it's meant to be printed or saved as a document",
+  "Approving a leave request surfaces exactly which of that teacher's timetable periods fall inside the leave dates and still have no substitute, each one linking straight into the substitution picker with the period and date already filled in and eligible teachers looked up automatically",
 ];
 
 const planned = [
   "Real SMS and mobile money provider integration with signed callback verification — needs a contracted Ugandan provider (e.g. a licensed aggregator) and live API credentials",
   "Automatic (unattended) execution of scheduled reports on a real clock — today they run on demand from the Scheduled reports page (\"Run due reports now\") since there's no background job runner yet",
-  "Leave approval automatically triggering a substitution suggestion for affected timetable periods",
   "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances — needs a Redis instance to be provisioned",
   "Postgres in production with automated encrypted backups and tested restores — needs a hosting/database provider decision",
 ];

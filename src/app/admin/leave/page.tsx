@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { requireSession } from "@/lib/guard";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, Table, Badge, Button, Input, EmptyState } from "@/components/ui";
 import { decideLeaveRequest } from "@/lib/actions/leave";
+import { getAffectedPeriods } from "@/lib/leave-coverage";
 
 const CATEGORY_LABEL: Record<string, string> = {
   SICK: "Sick leave",
@@ -14,7 +16,7 @@ const CATEGORY_LABEL: Record<string, string> = {
 export default async function AdminLeavePage() {
   const { tenantId } = await requireSession("/admin");
 
-  const [pending, decided] = await Promise.all([
+  const [pending, decided, recentlyApproved] = await Promise.all([
     prisma.leaveRequest.findMany({
       where: { tenantId, status: "PENDING" },
       include: { staff: { include: { user: true } } },
@@ -26,13 +28,50 @@ export default async function AdminLeavePage() {
       orderBy: { decidedAt: "desc" },
       take: 10,
     }),
+    prisma.leaveRequest.findMany({
+      where: { tenantId, status: "APPROVED", endDate: { gte: new Date(new Date().setHours(0, 0, 0, 0)) } },
+      include: { staff: { include: { user: true } } },
+      orderBy: { startDate: "asc" },
+    }),
   ]);
+
+  const coverageByRequest = await Promise.all(
+    recentlyApproved.map(async (r) => ({ request: r, periods: await getAffectedPeriods(r.id) }))
+  );
+  const needsCoverage = coverageByRequest.filter((c) => c.periods.length > 0);
 
   return (
     <div>
       <PageHeader title="Staff leave" subtitle="Review and decide leave requests." />
 
       <div className="space-y-6">
+        {needsCoverage.length > 0 && (
+          <Card>
+            <CardHeader title="Approved leave still needing a substitute" subtitle="Upcoming periods for staff on approved leave with no substitute assigned yet" />
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              {needsCoverage.map(({ request, periods }) => (
+                <div key={request.id} className="p-4 sm:p-5">
+                  <p className="font-medium text-slate-900 dark:text-slate-100">{request.staff.user.name}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    {CATEGORY_LABEL[request.category] ?? request.category} · {new Date(request.startDate).toLocaleDateString()} – {new Date(request.endDate).toLocaleDateString()}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {periods.map((p) => (
+                      <Link
+                        key={`${p.timetableSlotId}-${p.date}`}
+                        href={`/admin/substitutions?slotId=${p.timetableSlotId}&date=${p.date}`}
+                        className="text-xs bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full px-3 py-1 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+                      >
+                        {p.label} →
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
         <Card>
           <CardHeader title={`${pending.length} pending`} />
           {pending.length === 0 ? (

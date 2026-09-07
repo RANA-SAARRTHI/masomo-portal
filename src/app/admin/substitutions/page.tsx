@@ -6,8 +6,13 @@ import { cancelSubstitution } from "@/lib/actions/substitution";
 
 const DAY_NAMES = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-export default async function SubstitutionsPage() {
+export default async function SubstitutionsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ slotId?: string; date?: string }>;
+}) {
   const { tenantId } = await requireSession("/admin");
+  const sp = await searchParams;
 
   const slots = await prisma.timetableSlot.findMany({
     where: { classGroup: { tenantId } },
@@ -49,7 +54,7 @@ export default async function SubstitutionsPage() {
             {slotOptions.length === 0 ? (
               <EmptyState title="No timetable periods yet" body="Build the timetable first, then substitutions can be assigned against it." />
             ) : (
-              <SubstitutionForm slots={slotOptions} />
+              <SubstitutionForm slots={slotOptions} initialSlotId={sp.slotId} initialDate={sp.date} />
             )}
           </div>
         </Card>

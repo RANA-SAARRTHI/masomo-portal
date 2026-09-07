@@ -1,18 +1,36 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Select, Input, Button, Label } from "@/components/ui";
 import { getEligibleSubstitutes, assignSubstitute } from "@/lib/actions/substitution";
 
 type SlotOption = { id: string; label: string; teacherName: string };
 
-export function SubstitutionForm({ slots }: { slots: SlotOption[] }) {
-  const [slotId, setSlotId] = useState(slots[0]?.id ?? "");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+export function SubstitutionForm({
+  slots,
+  initialSlotId,
+  initialDate,
+}: {
+  slots: SlotOption[];
+  initialSlotId?: string;
+  initialDate?: string;
+}) {
+  const [slotId, setSlotId] = useState(initialSlotId && slots.some((s) => s.id === initialSlotId) ? initialSlotId : slots[0]?.id ?? "");
+  const [date, setDate] = useState(initialDate ?? new Date().toISOString().slice(0, 10));
   const [eligible, setEligible] = useState<{ id: string; name: string }[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  // Arriving here from an approved-leave coverage link: look up substitutes
+  // for the pre-filled period automatically instead of making the admin
+  // click "Find free teachers" for a period we already know they want.
+  useEffect(() => {
+    if (initialSlotId && initialDate) {
+      findSubstitutes();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function findSubstitutes() {
     setError(null);

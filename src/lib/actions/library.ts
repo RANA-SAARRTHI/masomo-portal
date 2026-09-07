@@ -22,7 +22,10 @@ export async function issueItem(formData: FormData) {
   if (!itemId || !borrowerName) return;
   const item = await prisma.libraryItem.findFirst({ where: { id: itemId, tenantId } });
   if (!item) throw new Error("Not found.");
-  if (item.copiesAvailable < 1) return;
+  // The Issue button is already disabled client-side once copies run out, so
+  // reaching this is a race (two people issuing the last copy at once) or a
+  // stale page — either way, say so instead of silently doing nothing.
+  if (item.copiesAvailable < 1) throw new Error("No copies of this title are currently available.");
   await prisma.$transaction([
     prisma.libraryLoan.create({
       data: { itemId, borrowerName, dueAt: new Date(Date.now() + days * 86400000) },

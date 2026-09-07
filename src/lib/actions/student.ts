@@ -5,13 +5,13 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/guard";
 
 export async function submitAssignment(formData: FormData) {
-  const { userId } = await requireSession("/student");
+  const { userId, tenantId } = await requireSession("/student");
   const assignmentId = String(formData.get("assignmentId") ?? "");
   const text = String(formData.get("text") ?? "").trim();
   if (!assignmentId || !text) return;
 
   const student = await prisma.studentProfile.findUnique({ where: { userId } });
-  const assignment = await prisma.assignment.findUnique({ where: { id: assignmentId } });
+  const assignment = await prisma.assignment.findFirst({ where: { id: assignmentId, subject: { tenantId } } });
   if (!student || !assignment) return;
 
   const late = new Date() > assignment.dueDate;

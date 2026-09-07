@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offline — Masomo</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: #f8fafc; color: #0f172a; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 24px; }
+    .box { max-width: 24rem; text-align: center; }
+    .icon { width: 48px; height: 48px; border-radius: 12px; background: #0d9488; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; margin: 0 auto 16px; }
+    h1 { font-size: 1.125rem; margin: 0 0 8px; }
+    p { color: #64748b; font-size: 0.9rem; line-height: 1.5; margin: 0 0 16px; }
+    button { background: #0d9488; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="icon">M</div>
+    <h1>You're offline</h1>
+    <p>Masomo needs a connection to load this page. Anything you were filling in — like today's attendance register — is saved on this device and will submit automatically once you're back online.</p>
+    <button onclick="location.reload()">Try again</button>
+  </div>
+</body>
+</html>

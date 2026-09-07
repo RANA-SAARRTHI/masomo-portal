@@ -17,7 +17,7 @@ const live = [
   "A tenant-scoped search box for finding students, staff, classes and subjects",
   "Login rate limiting: an account locks for 15 minutes after 5 failed attempts",
   "Audit log of logins, failed logins and sensitive actions",
-  "Installable PWA shell for low-end Android phones",
+  "Installable on Android/Chrome (a real service worker, not just a manifest — that's what actually makes the browser's install prompt appear) with a proper offline page instead of the browser's own error screen when there's no connection. Dashboard pages are live, authenticated server renders and are deliberately not cached for offline use, so this covers install + a graceful offline fallback, not full offline browsing",
   "Printable, school-branded report cards with grades, attendance and signature lines — one click from student, guardian or admin views",
   "Timetable clash detection: rejects overlapping periods for the same class, room or teacher, with a plain-language reason",
   "Teacher substitution: mark a period covered, only teachers genuinely free at that day and time are offered, and the substitute sees it on their dashboard",

@@ -5,17 +5,26 @@ import { PageHeader, StatCard, Card, CardHeader, EmptyState, Badge } from "@/com
 export default async function AdminOverview() {
   const { tenantId } = await requireSession("/admin");
 
-  const [students, staff, guardians, openInvoices, unpaidTotal, todayAbsences, announcements] = await Promise.all([
+  const [students, staff, guardians, openInvoices, todayAbsences, announcements] = await Promise.all([
     prisma.user.count({ where: { tenantId, role: "STUDENT" } }),
     prisma.user.count({ where: { tenantId, role: { in: ["TEACHER", "ADMIN", "BURSAR", "PRINCIPAL", "LIBRARIAN", "TRANSPORT_OFFICER"] } } }),
     prisma.user.count({ where: { tenantId, role: "GUARDIAN" } }),
-    prisma.invoice.count({ where: { tenantId, status: { in: ["ISSUED", "PART_PAID"] } } }),
-    prisma.invoice.aggregate({ where: { tenantId, status: { in: ["ISSUED", "PART_PAID"] } }, _sum: { amount: true } }),
+    prisma.invoice.findMany({
+      where: { tenantId, status: { in: ["ISSUED", "PART_PAID"] } },
+      include: { payments: true },
+    }),
     prisma.attendanceRecord.count({
       where: { student: { user: { tenantId } }, status: "ABSENT", date: { gte: new Date(new Date().setHours(0, 0, 0, 0)) } },
     }),
     prisma.announcement.findMany({ where: { tenantId }, orderBy: { createdAt: "desc" }, take: 5 }),
   ]);
+
+  // A PART_PAID invoice's full amount isn't what's still owed — subtract
+  // what's already been paid on it, per invoice, before totalling.
+  const unpaidTotal = openInvoices.reduce((sum, inv) => {
+    const paid = inv.payments.filter((p) => p.status === "SUCCESSFUL").reduce((s, p) => s + p.amount, 0);
+    return sum + Math.max(inv.amount - paid, 0);
+  }, 0);
 
   return (
     <div>
@@ -25,11 +34,11 @@ export default async function AdminOverview() {
         <StatCard label="Staff" value={staff} hint="All roles" tone="slate" />
         <StatCard label="Guardians" value={guardians} hint="Linked" tone="slate" />
         <StatCard label="Absent today" value={todayAbsences} hint="Flagged" tone={todayAbsences > 0 ? "rose" : "brand"} />
-        <StatCard label="Open invoices" value={openInvoices} hint="Unpaid" tone="amber" />
+        <StatCard label="Open invoices" value={openInvoices.length} hint="Unpaid" tone="amber" />
         <StatCard
           label="Outstanding fees"
-          value={`UGX ${Math.round(unpaidTotal._sum.amount ?? 0).toLocaleString()}`}
-          hint="Total"
+          value={`UGX ${Math.round(unpaidTotal).toLocaleString()}`}
+          hint="Balance due"
           tone="amber"
         />
       </div>

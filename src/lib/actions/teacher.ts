@@ -88,7 +88,13 @@ export async function postAssignment(formData: FormData) {
   await assertOwnsClassSubject(userId, classGroupId, subjectId);
 
   await prisma.assignment.create({
-    data: { subjectId, title, instructions, dueDate: new Date(dueDate), allowLate },
+    // A bare "YYYY-MM-DD" string (what <input type="date"> submits) is parsed
+    // by Date() as UTC midnight, not local midnight — verified this actually
+    // shifts the stored due date to the previous day in a negative-UTC-offset
+    // deployment (and shifts the cutoff time in a positive-offset one like
+    // Africa/Kampala). Appending a local time-of-day avoids that, matching
+    // how every other date-only form field in this app is parsed.
+    data: { subjectId, title, instructions, dueDate: new Date(dueDate + "T23:59:59"), allowLate },
   });
   revalidatePath("/teacher/assignments");
 }

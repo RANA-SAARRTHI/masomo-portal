@@ -15,11 +15,13 @@ export async function addLibraryItem(formData: FormData) {
 }
 
 export async function issueItem(formData: FormData) {
+  const { tenantId } = await requireSession("/library");
   const itemId = String(formData.get("itemId") ?? "");
   const borrowerName = String(formData.get("borrowerName") ?? "").trim();
   const days = Number(formData.get("days") ?? 14);
   if (!itemId || !borrowerName) return;
-  const item = await prisma.libraryItem.findUniqueOrThrow({ where: { id: itemId } });
+  const item = await prisma.libraryItem.findFirst({ where: { id: itemId, tenantId } });
+  if (!item) throw new Error("Not found.");
   if (item.copiesAvailable < 1) return;
   await prisma.$transaction([
     prisma.libraryLoan.create({
@@ -31,9 +33,12 @@ export async function issueItem(formData: FormData) {
 }
 
 export async function returnItem(formData: FormData) {
+  const { tenantId } = await requireSession("/library");
   const loanId = String(formData.get("loanId") ?? "");
   if (!loanId) return;
-  const loan = await prisma.libraryLoan.update({ where: { id: loanId }, data: { returnedAt: new Date() } });
+  const loan = await prisma.libraryLoan.findFirst({ where: { id: loanId, item: { tenantId } } });
+  if (!loan) throw new Error("Not found.");
+  await prisma.libraryLoan.update({ where: { id: loanId }, data: { returnedAt: new Date() } });
   await prisma.libraryItem.update({ where: { id: loan.itemId }, data: { copiesAvailable: { increment: 1 } } });
   revalidatePath("/library");
 }

@@ -15,6 +15,9 @@ export async function createWellbeingRecord(formData: FormData) {
   const description = String(formData.get("description") ?? "").trim();
   if (!studentId || !category || !description) return;
 
+  const student = await prisma.studentProfile.findFirst({ where: { id: studentId, user: { tenantId } } });
+  if (!student) throw new Error("Student not found.");
+
   await prisma.wellbeingRecord.create({
     data: { tenantId, studentId, category, description, caseOwnerName: name, createdById: userId },
   });
@@ -30,6 +33,9 @@ export async function updateWellbeingRecord(formData: FormData) {
   const status = String(formData.get("status") ?? "");
   const actionTaken = String(formData.get("actionTaken") ?? "").trim();
   if (!recordId) return;
+
+  const existing = await prisma.wellbeingRecord.findFirst({ where: { id: recordId, tenantId } });
+  if (!existing) throw new Error("Not found.");
 
   await prisma.wellbeingRecord.update({
     where: { id: recordId },

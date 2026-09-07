@@ -31,6 +31,8 @@ export async function deleteScheduledReport(formData: FormData) {
   const { tenantId, userId } = await requireSession("/admin");
   const id = String(formData.get("id") ?? "");
   if (!id) return;
+  const existing = await prisma.scheduledReport.findFirst({ where: { id, tenantId } });
+  if (!existing) throw new Error("Not found.");
   await prisma.scheduledReport.delete({ where: { id } });
   await prisma.auditLog.create({ data: { tenantId, actorId: userId, action: "DELETE_SCHEDULED_REPORT", target: id } });
   revalidatePath("/admin/scheduled-reports");

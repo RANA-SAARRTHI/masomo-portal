@@ -122,6 +122,8 @@ export async function updateUserStatus(formData: FormData) {
   const targetId = String(formData.get("userId") ?? "");
   const status = String(formData.get("status") ?? "ACTIVE");
   if (!targetId) return;
+  const target = await prisma.user.findFirst({ where: { id: targetId, tenantId } });
+  if (!target) throw new Error("Not found.");
   await prisma.user.update({ where: { id: targetId }, data: { status } });
   await logAction(tenantId, userId, `SET_STATUS_${status}`, targetId);
   revalidatePath("/admin/staff");
@@ -209,6 +211,8 @@ export async function deleteTimetableSlot(formData: FormData) {
   const { tenantId, userId } = await requireSession("/admin");
   const slotId = String(formData.get("slotId") ?? "");
   if (!slotId) return;
+  const slot = await prisma.timetableSlot.findFirst({ where: { id: slotId, classGroup: { tenantId } } });
+  if (!slot) throw new Error("Not found.");
   await prisma.timetableSlot.delete({ where: { id: slotId } });
   await logAction(tenantId, userId, "DELETE_TIMETABLE_SLOT", slotId);
   revalidatePath("/admin/timetable");
@@ -225,7 +229,8 @@ export async function moderateAssessment(formData: FormData) {
   const note = String(formData.get("note") ?? "").trim();
   if (!assessmentId) throw new Error("Missing assessment.");
 
-  const assessment = await prisma.assessment.findUniqueOrThrow({ where: { id: assessmentId } });
+  const assessment = await prisma.assessment.findFirst({ where: { id: assessmentId, subject: { tenantId } } });
+  if (!assessment) throw new Error("Not found.");
   if (assessment.state !== "SUBMITTED") throw new Error("This assessment is not awaiting moderation.");
 
   await prisma.assessment.update({
@@ -244,7 +249,8 @@ export async function publishAssessment(formData: FormData) {
     throw new Error("Only a principal can publish results.");
   }
 
-  const assessment = await prisma.assessment.findUniqueOrThrow({ where: { id: assessmentId } });
+  const assessment = await prisma.assessment.findFirst({ where: { id: assessmentId, subject: { tenantId } } });
+  if (!assessment) throw new Error("Not found.");
   if (assessment.state !== "APPROVED") throw new Error("This assessment must be moderated before it can be published.");
 
   await prisma.assessment.update({
@@ -260,6 +266,8 @@ export async function sendBackToTeacher(formData: FormData) {
   const assessmentId = String(formData.get("assessmentId") ?? "");
   const reason = String(formData.get("reason") ?? "").trim();
   if (!assessmentId) return;
+  const assessment = await prisma.assessment.findFirst({ where: { id: assessmentId, subject: { tenantId } } });
+  if (!assessment) throw new Error("Not found.");
   await prisma.assessment.update({
     where: { id: assessmentId },
     data: { state: "OPEN", moderatedById: null, moderationNote: null, moderatedAt: null },

@@ -33,13 +33,14 @@ export async function raiseInvoice(formData: FormData) {
 }
 
 export async function recordPayment(formData: FormData) {
-  await requireSession("/bursar");
+  const { tenantId } = await requireSession("/bursar");
   const invoiceId = String(formData.get("invoiceId") ?? "");
   const amount = Number(formData.get("amount") ?? 0);
   const method = String(formData.get("method") ?? "CASH");
   if (!invoiceId || !amount) return;
 
-  const invoice = await prisma.invoice.findUniqueOrThrow({ where: { id: invoiceId }, include: { payments: true } });
+  const invoice = await prisma.invoice.findFirst({ where: { id: invoiceId, tenantId }, include: { payments: true } });
+  if (!invoice) throw new Error("Invoice not found.");
   await prisma.payment.create({
     data: { invoiceId, amount, method, status: "SUCCESSFUL", reference: genReference("RCT") },
   });
@@ -53,10 +54,13 @@ export async function recordPayment(formData: FormData) {
 }
 
 export async function reversePayment(formData: FormData) {
-  await requireSession("/bursar");
+  const { tenantId } = await requireSession("/bursar");
   const paymentId = String(formData.get("paymentId") ?? "");
   const reason = String(formData.get("reason") ?? "Reversed by bursar");
   if (!paymentId) return;
+
+  const existing = await prisma.payment.findFirst({ where: { id: paymentId, invoice: { tenantId } } });
+  if (!existing) throw new Error("Payment not found.");
 
   const payment = await prisma.payment.update({
     where: { id: paymentId },

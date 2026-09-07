@@ -14,6 +14,18 @@ async function assertOwnsClassSubject(userId: string, classGroupId: string, subj
   return staff;
 }
 
+// Assignments/assessments aren't tied to one specific class in the schema,
+// so the finest-grained check available is subject-level: does this teacher
+// have any allocation for this subject at all (which also confirms the
+// subject, and therefore the assessment/assignment, belongs to their tenant).
+async function assertOwnsSubject(userId: string, subjectId: string) {
+  const staff = await prisma.staffProfile.findUnique({ where: { userId } });
+  if (!staff) throw new Error("Not a staff member");
+  const allocation = await prisma.teacherAllocation.findFirst({ where: { teacherId: staff.id, subjectId } });
+  if (!allocation) throw new Error("Not authorised for this subject");
+  return staff;
+}
+
 export async function submitAttendance(formData: FormData) {
   const { userId, tenantId } = await requireSession("/teacher");
   const classGroupId = String(formData.get("classGroupId") ?? "");
@@ -21,9 +33,22 @@ export async function submitAttendance(formData: FormData) {
   const studentIds = formData.getAll("studentId").map(String);
   if (!classGroupId || !dateStr) return;
 
+  const staff = await prisma.staffProfile.findUnique({ where: { userId } });
+  if (!staff) throw new Error("Not a staff member");
+  const teachesClass = await prisma.teacherAllocation.findFirst({ where: { teacherId: staff.id, classGroupId } });
+  if (!teachesClass) throw new Error("Not authorised for this class");
+
+  // Only ever write attendance for students actually enrolled in this class
+  // — a submitted studentId that isn't a member of classGroupId is dropped
+  // rather than trusted, so a tampered form can't touch another class/tenant.
+  const validStudentIds = new Set(
+    (await prisma.studentProfile.findMany({ where: { classGroupId }, select: { id: true } })).map((s) => s.id)
+  );
+
   const date = new Date(dateStr + "T00:00:00");
 
   for (const studentId of studentIds) {
+    if (!validStudentIds.has(studentId)) continue;
     const status = String(formData.get(`status-${studentId}`) ?? "PRESENT");
     const reason = String(formData.get(`reason-${studentId}`) ?? "");
     await prisma.attendanceRecord.upsert({
@@ -69,11 +94,14 @@ export async function postAssignment(formData: FormData) {
 }
 
 export async function gradeSubmission(formData: FormData) {
-  await requireSession("/teacher");
+  const { userId } = await requireSession("/teacher");
   const submissionId = String(formData.get("submissionId") ?? "");
   const score = Number(formData.get("score") ?? 0);
   const feedback = String(formData.get("feedback") ?? "");
   if (!submissionId) return;
+  const submission = await prisma.submission.findUnique({ where: { id: submissionId }, include: { assignment: true } });
+  if (!submission) throw new Error("Not found.");
+  await assertOwnsSubject(userId, submission.assignment.subjectId);
   await prisma.submission.update({ where: { id: submissionId }, data: { score, feedback } });
   revalidatePath("/teacher/assignments");
 }
@@ -86,6 +114,7 @@ export async function saveMarks(formData: FormData) {
 
   const assessment = await prisma.assessment.findUnique({ where: { id: assessmentId } });
   if (!assessment || assessment.state !== "OPEN") return; // locked once submitted for moderation
+  await assertOwnsSubject(userId, assessment.subjectId);
 
   for (const studentId of studentIds) {
     const stateRaw = String(formData.get(`state-${studentId}`) ?? "ENTERED");
@@ -102,12 +131,15 @@ export async function saveMarks(formData: FormData) {
 }
 
 export async function createAssessment(formData: FormData) {
-  const { userId } = await requireSession("/teacher");
+  const { userId, tenantId } = await requireSession("/teacher");
   const subjectId = String(formData.get("subjectId") ?? "");
   const termId = String(formData.get("termId") ?? "");
   const name = String(formData.get("name") ?? "").trim();
   const maxMark = Number(formData.get("maxMark") ?? 100);
   if (!subjectId || !termId || !name) return;
+  await assertOwnsSubject(userId, subjectId);
+  const term = await prisma.term.findFirst({ where: { id: termId, academicYear: { tenantId } } });
+  if (!term) throw new Error("Term not found.");
   await prisma.assessment.create({ data: { subjectId, termId, name, maxMark, state: "OPEN" } });
   revalidatePath("/teacher/marks");
 }
@@ -120,6 +152,9 @@ export async function submitForModeration(formData: FormData) {
   const { userId, tenantId } = await requireSession("/teacher");
   const assessmentId = String(formData.get("assessmentId") ?? "");
   if (!assessmentId) return;
+  const assessment = await prisma.assessment.findUnique({ where: { id: assessmentId } });
+  if (!assessment) throw new Error("Not found.");
+  await assertOwnsSubject(userId, assessment.subjectId);
   await prisma.assessment.update({ where: { id: assessmentId }, data: { state: "SUBMITTED" } });
   await prisma.auditLog.create({ data: { tenantId, actorId: userId, action: "SUBMIT_FOR_MODERATION", target: assessmentId } });
   revalidatePath("/teacher/marks");

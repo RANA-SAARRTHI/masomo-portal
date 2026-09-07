@@ -28,8 +28,8 @@ export default async function StudentsPage() {
               {students.map((s) => (
                 <tr key={s.id}>
                   <td className="py-2.5 px-3">
-                    <div className="font-medium text-slate-900">{s.name}</div>
-                    <div className="text-xs text-slate-400">{s.email}</div>
+                    <div className="font-medium text-slate-900 dark:text-slate-100">{s.name}</div>
+                    <div className="text-xs text-slate-400 dark:text-slate-500">{s.email}</div>
                   </td>
                   <td className="py-2.5 px-3">{s.studentProfile?.admissionNo}</td>
                   <td className="py-2.5 px-3">{s.studentProfile?.classGroup?.name ?? "—"}</td>
@@ -125,7 +125,7 @@ export default async function StudentsPage() {
             <Button type="submit" className="w-full">
               Admit student
             </Button>
-            <p className="text-xs text-slate-400">Default password: Masomo@2026 (ask them to change it after first login).</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500">Default password: Masomo@2026 (ask them to change it after first login).</p>
           </form>
         </Card>
       </div>

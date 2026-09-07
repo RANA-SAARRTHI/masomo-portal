@@ -120,13 +120,13 @@ export function AttendanceRegister({
       </div>
 
       {rows.map((r) => (
-        <div key={r.id} className="flex flex-col sm:flex-row sm:items-center gap-2 border-b border-slate-50 pb-3 last:border-0">
-          <span className="font-medium text-slate-800 flex-1 min-w-[10rem]">{r.name}</span>
+        <div key={r.id} className="flex flex-col sm:flex-row sm:items-center gap-2 border-b border-slate-50 pb-3 last:border-0 dark:border-slate-800">
+          <span className="font-medium text-slate-800 flex-1 min-w-[10rem] dark:text-slate-200">{r.name}</span>
           <div className="flex flex-wrap gap-2">
             {STATUSES.map((st) => (
               <label
                 key={st}
-                className="text-xs px-2 py-1 rounded-full border border-slate-200 has-[:checked]:bg-brand-600 has-[:checked]:text-white has-[:checked]:border-brand-600 cursor-pointer"
+                className="text-xs px-2 py-1 rounded-full border border-slate-200 has-[:checked]:bg-brand-600 has-[:checked]:text-white has-[:checked]:border-brand-600 cursor-pointer dark:border-slate-700"
               >
                 <input
                   type="radio"
@@ -153,7 +153,7 @@ export function AttendanceRegister({
         <Button type="submit" disabled={isPending}>
           {isPending ? "Submitting..." : isOnline ? "Submit register" : "Save register (offline)"}
         </Button>
-        {!isOnline && <span className="text-xs text-slate-400">Will submit automatically once you're back online.</span>}
+        {!isOnline && <span className="text-xs text-slate-400 dark:text-slate-500">Will submit automatically once you're back online.</span>}
       </div>
     </form>
   );

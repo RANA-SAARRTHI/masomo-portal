@@ -47,12 +47,12 @@ export default async function TeacherHome() {
             <Card key={a.id} className="p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="font-semibold text-slate-900">{a.subject.name}</p>
-                  <p className="text-sm text-slate-500">{a.classGroup.name}</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-100">{a.subject.name}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{a.classGroup.name}</p>
                 </div>
                 {a.isClassTeacher ? <Badge tone="brand">Class teacher</Badge> : null}
               </div>
-              <p className="text-sm text-slate-400 mt-3">{a.classGroup.students.length} students</p>
+              <p className="text-sm text-slate-400 mt-3 dark:text-slate-500">{a.classGroup.students.length} students</p>
             </Card>
           ))}
         </div>

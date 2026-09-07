@@ -29,7 +29,7 @@ export default async function LibraryPage() {
               <Table head={["Title", "Author", "Available", "Issue"]}>
                 {items.map((it) => (
                   <tr key={it.id}>
-                    <td className="py-2.5 px-3 font-medium text-slate-900">{it.title}</td>
+                    <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{it.title}</td>
                     <td className="py-2.5 px-3">{it.author}</td>
                     <td className="py-2.5 px-3">
                       {it.copiesAvailable}/{it.copies}

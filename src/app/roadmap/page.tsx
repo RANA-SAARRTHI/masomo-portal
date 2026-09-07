@@ -28,6 +28,7 @@ const live = [
   "Staff leave requests: any staff member can request sick, annual, compassionate or maternity/paternity leave and track its status; admins and principals approve or decline with a note",
   "A data-quality dashboard flagging missing attendance registers, students with no linked guardian, assessments with unentered marks, invoices unpaid for 30+ days, and privileged accounts that have never logged in",
   "Watermarked, audited exports: every download embeds who requested it, when and why, and is logged; scheduled weekly/monthly reports can only be pointed at a recipient whose role already has that access — a schedule can never grant extra permission",
+  "Dark mode: an explicit toggle in every dashboard header, remembered per device — off by default so nobody's screen changes on its own. The printable report card always stays white-background, even with dark mode on, since it's meant to be printed or saved as a document",
 ];
 
 const planned = [
@@ -44,8 +45,8 @@ export default function RoadmapPage() {
       <Link href="/" className="text-sm text-brand-700 hover:underline">
         ← Back home
       </Link>
-      <h1 className="text-2xl font-semibold text-slate-900 mt-4">What's built, and what's next</h1>
-      <p className="text-slate-600 mt-2">
+      <h1 className="text-2xl font-semibold text-slate-900 mt-4 dark:text-slate-100">What's built, and what's next</h1>
+      <p className="text-slate-600 mt-2 dark:text-slate-400">
         A screen that looks finished is not the same as a screen that is finished. Here is an honest split
         between what works today and what's still on the roadmap.
       </p>
@@ -55,7 +56,7 @@ export default function RoadmapPage() {
           <h2 className="font-semibold text-brand-700 mb-3">Live today</h2>
           <ul className="space-y-2">
             {live.map((item) => (
-              <li key={item} className="text-sm text-slate-700 bg-brand-50 rounded-lg px-3 py-2">
+              <li key={item} className="text-sm text-slate-700 bg-brand-50 rounded-lg px-3 py-2 dark:text-slate-300">
                 {item}
               </li>
             ))}
@@ -65,7 +66,7 @@ export default function RoadmapPage() {
           <h2 className="font-semibold text-amber-700 mb-3">Planned next</h2>
           <ul className="space-y-2">
             {planned.map((item) => (
-              <li key={item} className="text-sm text-slate-700 bg-amber-50 rounded-lg px-3 py-2">
+              <li key={item} className="text-sm text-slate-700 bg-amber-50 rounded-lg px-3 py-2 dark:text-slate-300">
                 {item}
               </li>
             ))}

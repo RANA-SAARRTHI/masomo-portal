@@ -44,14 +44,14 @@ export default async function WellbeingPage() {
                   action={<Badge tone={r.status === "RESOLVED" ? "emerald" : r.status === "IN_PROGRESS" ? "amber" : "rose"}>{r.status}</Badge>}
                 />
                 <div className="p-4 sm:p-5 space-y-3">
-                  <p className="text-sm text-slate-700">{r.description}</p>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">{r.description}</p>
                   {r.actionTaken && (
-                    <p className="text-sm text-slate-500">
-                      <span className="font-medium text-slate-700">Action taken:</span> {r.actionTaken}
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      <span className="font-medium text-slate-700 dark:text-slate-300">Action taken:</span> {r.actionTaken}
                     </p>
                   )}
                   {r.status !== "RESOLVED" && (
-                    <form action={updateWellbeingRecord} className="flex flex-wrap gap-2 items-end border-t border-slate-100 pt-3">
+                    <form action={updateWellbeingRecord} className="flex flex-wrap gap-2 items-end border-t border-slate-100 pt-3 dark:border-slate-800">
                       <input type="hidden" name="recordId" value={r.id} />
                       <div className="flex-1 min-w-[10rem]">
                         <Label>Action taken</Label>
@@ -105,7 +105,7 @@ export default async function WellbeingPage() {
                 name="description"
                 required
                 rows={4}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700"
                 placeholder="Record what was observed, not a diagnosis or judgement."
               />
             </div>

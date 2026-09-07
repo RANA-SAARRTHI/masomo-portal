@@ -49,11 +49,11 @@ export default async function StudentAssignmentsPage() {
                   }
                 />
                 <div className="p-4 sm:p-5">
-                  <p className="text-sm text-slate-600 mb-3">{a.instructions}</p>
+                  <p className="text-sm text-slate-600 mb-3 dark:text-slate-400">{a.instructions}</p>
                   {mySubmission ? (
-                    <div className="bg-slate-50 rounded-lg p-3 text-sm">
-                      <p className="text-slate-700 whitespace-pre-wrap">{mySubmission.text}</p>
-                      <p className="text-xs text-slate-400 mt-2">
+                    <div className="bg-slate-50 rounded-lg p-3 text-sm dark:bg-slate-800">
+                      <p className="text-slate-700 whitespace-pre-wrap dark:text-slate-300">{mySubmission.text}</p>
+                      <p className="text-xs text-slate-400 mt-2 dark:text-slate-500">
                         Submitted {new Date(mySubmission.submittedAt).toLocaleString()}
                         {mySubmission.score != null && ` · Score: ${mySubmission.score}`}
                       </p>
@@ -66,7 +66,7 @@ export default async function StudentAssignmentsPage() {
                         name="text"
                         required
                         rows={4}
-                        className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500"
+                        className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700"
                         placeholder="Type or paste your answer here..."
                       />
                       <Button type="submit">Submit</Button>

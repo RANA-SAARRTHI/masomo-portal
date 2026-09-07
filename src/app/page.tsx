@@ -20,14 +20,14 @@ const roles = [
 export default function Home() {
   return (
     <div className="flex flex-col flex-1">
-      <header className="border-b border-slate-200 bg-white">
+      <header className="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold">M</div>
             <span className="font-semibold text-lg">Masomo</span>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/roadmap" className="text-sm text-slate-600 hover:text-slate-900 hidden sm:inline">
+            <Link href="/roadmap" className="text-sm text-slate-600 hover:text-slate-900 hidden sm:inline dark:text-slate-400">
               Roadmap
             </Link>
             <Link
@@ -45,10 +45,10 @@ export default function Home() {
           <span className="inline-flex items-center rounded-full bg-brand-100 text-brand-700 px-3 py-1 text-sm font-medium mb-4">
             Built for schools in Uganda
           </span>
-          <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-slate-900 max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-slate-900 max-w-3xl mx-auto dark:text-slate-100">
             One portal for your whole school
           </h1>
-          <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto dark:text-slate-400">
             Masomo brings attendance, class materials, results, fees and communication into one place
             for primary, secondary and vocational institutions. Works well on ordinary phones and slow
             connections.
@@ -57,23 +57,23 @@ export default function Home() {
             <Link href="/login" className="bg-brand-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-700">
               Sign in to your school
             </Link>
-            <Link href="/roadmap" className="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-slate-50">
+            <Link href="/roadmap" className="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300">
               See what's built so far
             </Link>
           </div>
-          <p className="mt-6 text-sm text-slate-500">
+          <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">
             Demo login available on the sign-in page for every role: principal, teacher, student, guardian and bursar.
           </p>
         </div>
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <h2 className="text-2xl font-semibold text-center text-slate-900">Everything your school runs on, digitised</h2>
+        <h2 className="text-2xl font-semibold text-center text-slate-900 dark:text-slate-100">Everything your school runs on, digitised</h2>
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((f) => (
-            <div key={f.title} className="bg-white rounded-2xl border border-slate-200 p-5">
-              <h3 className="font-semibold text-slate-900">{f.title}</h3>
-              <p className="mt-2 text-sm text-slate-600">{f.body}</p>
+            <div key={f.title} className="bg-white rounded-2xl border border-slate-200 p-5 dark:bg-slate-900 dark:border-slate-700">
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100">{f.title}</h3>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{f.body}</p>
             </div>
           ))}
         </div>
@@ -96,8 +96,8 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-slate-200 py-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+      <footer className="border-t border-slate-200 py-8 dark:border-slate-700">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
           <span>Masomo &mdash; a school portal built for Uganda, usable anywhere.</span>
           <Link href="/roadmap" className="hover:text-slate-800">
             Product roadmap

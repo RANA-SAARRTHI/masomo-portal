@@ -23,9 +23,9 @@ export default async function SettingsPage() {
           </div>
           <div>
             <Label>Brand colour</Label>
-            <input type="color" name="primaryColor" defaultValue={tenant.primaryColor} className="h-10 w-16 rounded border border-slate-200" />
+            <input type="color" name="primaryColor" defaultValue={tenant.primaryColor} className="h-10 w-16 rounded border border-slate-200 dark:border-slate-700" />
           </div>
-          <div className="text-sm text-slate-500 pt-2 border-t border-slate-100">
+          <div className="text-sm text-slate-500 pt-2 border-t border-slate-100 dark:text-slate-400 dark:border-slate-800">
             <p>Currency: {tenant.currency}</p>
             <p>Timezone: {tenant.timezone}</p>
             <p>Institution type: {tenant.type}</p>

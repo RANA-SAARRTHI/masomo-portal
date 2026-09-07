@@ -24,7 +24,7 @@ export function TimetableGrid({ slots }: { slots: SlotView[] }) {
       <div className="grid grid-cols-6 gap-2 min-w-[720px]">
         {DAYS.map((day, i) => (
           <div key={day} className="flex flex-col gap-2">
-            <div className="text-xs font-semibold text-slate-500 text-center pb-1 border-b border-slate-100">{day}</div>
+            <div className="text-xs font-semibold text-slate-500 text-center pb-1 border-b border-slate-100 dark:text-slate-400 dark:border-slate-800">{day}</div>
             {(byDay.get(i + 1) ?? []).length === 0 ? (
               <div className="text-xs text-slate-300 text-center py-4">—</div>
             ) : (

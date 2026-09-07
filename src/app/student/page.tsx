@@ -43,9 +43,9 @@ export default async function StudentToday() {
           ) : (
             <div className="p-4 sm:p-5 space-y-2">
               {assignmentsDue.map((a) => (
-                <div key={a.id} className="flex justify-between text-sm border-b border-slate-50 pb-2 last:border-0">
-                  <span className="font-medium text-slate-800">{a.title}</span>
-                  <span className="text-slate-400">{new Date(a.dueDate).toLocaleDateString()}</span>
+                <div key={a.id} className="flex justify-between text-sm border-b border-slate-50 pb-2 last:border-0 dark:border-slate-800">
+                  <span className="font-medium text-slate-800 dark:text-slate-200">{a.title}</span>
+                  <span className="text-slate-400 dark:text-slate-500">{new Date(a.dueDate).toLocaleDateString()}</span>
                 </div>
               ))}
             </div>
@@ -58,9 +58,9 @@ export default async function StudentToday() {
           ) : (
             <div className="p-4 sm:p-5 space-y-2">
               {recentMaterials.map((m) => (
-                <div key={m.id} className="text-sm border-b border-slate-50 pb-2 last:border-0">
-                  <p className="font-medium text-slate-800">{m.title}</p>
-                  <p className="text-slate-400">{m.subject.name}</p>
+                <div key={m.id} className="text-sm border-b border-slate-50 pb-2 last:border-0 dark:border-slate-800">
+                  <p className="font-medium text-slate-800 dark:text-slate-200">{m.title}</p>
+                  <p className="text-slate-400 dark:text-slate-500">{m.subject.name}</p>
                 </div>
               ))}
             </div>

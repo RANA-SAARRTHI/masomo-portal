@@ -54,18 +54,18 @@ export function GlobalSearch() {
         }}
         onFocus={() => setOpen(true)}
         placeholder="Search students, classes, staff..."
-        className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white"
+        className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:border-slate-700 dark:bg-slate-800"
       />
       {open && query.trim().length >= 2 && (
-        <div className="absolute z-20 mt-1 w-full bg-white rounded-lg border border-slate-200 shadow-lg max-h-80 overflow-y-auto">
+        <div className="absolute z-20 mt-1 w-full bg-white rounded-lg border border-slate-200 shadow-lg max-h-80 overflow-y-auto dark:bg-slate-900 dark:border-slate-700">
           {loading ? (
-            <p className="text-sm text-slate-400 px-3 py-2">Searching...</p>
+            <p className="text-sm text-slate-400 px-3 py-2 dark:text-slate-500">Searching...</p>
           ) : results.length === 0 ? (
-            <p className="text-sm text-slate-400 px-3 py-2">No matches</p>
+            <p className="text-sm text-slate-400 px-3 py-2 dark:text-slate-500">No matches</p>
           ) : (
             Object.entries(grouped).map(([group, items]) => (
               <div key={group}>
-                <p className="text-xs font-medium text-slate-400 px-3 pt-2 pb-1">{group}</p>
+                <p className="text-xs font-medium text-slate-400 px-3 pt-2 pb-1 dark:text-slate-500">{group}</p>
                 {items.map((r) => (
                   <button
                     key={group + r.id}
@@ -76,8 +76,8 @@ export function GlobalSearch() {
                     }}
                     className="w-full text-left px-3 py-2 text-sm hover:bg-slate-50 flex items-center justify-between"
                   >
-                    <span className="text-slate-800">{r.label}</span>
-                    {r.sublabel ? <span className="text-xs text-slate-400">{r.sublabel}</span> : null}
+                    <span className="text-slate-800 dark:text-slate-200">{r.label}</span>
+                    {r.sublabel ? <span className="text-xs text-slate-400 dark:text-slate-500">{r.sublabel}</span> : null}
                   </button>
                 ))}
               </div>

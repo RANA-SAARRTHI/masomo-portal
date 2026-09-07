@@ -22,13 +22,13 @@ export default async function MyLeavePage() {
     : [];
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-10">
+    <div className="min-h-screen bg-slate-50 px-4 py-10 dark:bg-slate-800">
       <div className="max-w-2xl mx-auto">
         <Link href={ROLE_HOME[role as RoleName] ?? "/redirect"} className="text-sm text-brand-700 hover:underline">
           ← Back to dashboard
         </Link>
-        <h1 className="text-xl font-semibold text-slate-900 mt-4 mb-1">Leave requests</h1>
-        <p className="text-sm text-slate-500 mb-6">Request time off and track approval.</p>
+        <h1 className="text-xl font-semibold text-slate-900 mt-4 mb-1 dark:text-slate-100">Leave requests</h1>
+        <p className="text-sm text-slate-500 mb-6 dark:text-slate-400">Request time off and track approval.</p>
 
         {!staff ? (
           <Card>
@@ -77,13 +77,13 @@ export default async function MyLeavePage() {
                   {requests.map((r) => (
                     <tr key={r.id}>
                       <td className="py-2.5 px-3">{CATEGORY_LABEL[r.category] ?? r.category}</td>
-                      <td className="py-2.5 px-3 text-slate-500">
+                      <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">
                         {new Date(r.startDate).toLocaleDateString()} – {new Date(r.endDate).toLocaleDateString()}
                       </td>
                       <td className="py-2.5 px-3">
                         <Badge tone={r.status === "APPROVED" ? "emerald" : r.status === "DECLINED" ? "rose" : "amber"}>{r.status}</Badge>
                       </td>
-                      <td className="py-2.5 px-3 text-slate-500">{r.decisionNote ?? "—"}</td>
+                      <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{r.decisionNote ?? "—"}</td>
                     </tr>
                   ))}
                 </Table>

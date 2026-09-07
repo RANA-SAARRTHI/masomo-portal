@@ -35,7 +35,7 @@ export default async function ModerationPage() {
 
       <div className="space-y-6">
         <div>
-          <h2 className="text-sm font-semibold text-slate-500 mb-2">Step 1 — awaiting moderation</h2>
+          <h2 className="text-sm font-semibold text-slate-500 mb-2 dark:text-slate-400">Step 1 — awaiting moderation</h2>
           <div className="space-y-4">
             {submitted.length === 0 ? (
               <Card>
@@ -67,7 +67,7 @@ export default async function ModerationPage() {
         </div>
 
         <div>
-          <h2 className="text-sm font-semibold text-slate-500 mb-2">Step 2 — moderated, awaiting principal publication</h2>
+          <h2 className="text-sm font-semibold text-slate-500 mb-2 dark:text-slate-400">Step 2 — moderated, awaiting principal publication</h2>
           <div className="space-y-4">
             {approved.length === 0 ? (
               <Card>
@@ -96,10 +96,10 @@ export default async function ModerationPage() {
             <Table head={["Subject", "Assessment", "Term", "Published"]}>
               {recentlyPublished.map((a) => (
                 <tr key={a.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{a.subject.name}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{a.subject.name}</td>
                   <td className="py-2.5 px-3">{a.name}</td>
                   <td className="py-2.5 px-3">{a.term.name}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{a.publishedAt ? new Date(a.publishedAt).toLocaleString() : "—"}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{a.publishedAt ? new Date(a.publishedAt).toLocaleString() : "—"}</td>
                 </tr>
               ))}
             </Table>

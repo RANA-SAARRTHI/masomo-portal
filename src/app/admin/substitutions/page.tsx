@@ -67,8 +67,8 @@ export default async function SubstitutionsPage() {
                     {s.timetableSlot.subject.name} · {s.timetableSlot.classGroup.name} ({s.timetableSlot.startTime}-{s.timetableSlot.endTime})
                   </td>
                   <td className="py-2.5 px-3">{s.originalTeacher.user.name}</td>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{s.substituteTeacher.user.name}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{s.reason ?? "—"}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{s.substituteTeacher.user.name}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{s.reason ?? "—"}</td>
                   <td className="py-2.5 px-3">
                     <form action={cancelSubstitution}>
                       <input type="hidden" name="substitutionId" value={s.id} />

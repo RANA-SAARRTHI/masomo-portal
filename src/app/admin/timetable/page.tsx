@@ -24,7 +24,7 @@ export default async function TimetablePage({ searchParams }: { searchParams: Pr
       <PageHeader title="Timetable" subtitle="Build the weekly schedule for each class." />
 
       <Card>
-        <form method="get" className="p-4 sm:p-5 border-b border-slate-100 flex items-end gap-3">
+        <form method="get" className="p-4 sm:p-5 border-b border-slate-100 flex items-end gap-3 dark:border-slate-800">
           <div className="w-56">
             <Label>Class</Label>
             <Select name="classGroupId" defaultValue={classGroupId}>

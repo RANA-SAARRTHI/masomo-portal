@@ -78,8 +78,8 @@ export default async function DataQualityPage() {
             <Table head={["Class", "Date"]}>
               {missingRegisters.slice(0, 30).map((m, i) => (
                 <tr key={i}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{m.className}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{m.date.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{m.className}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{m.date.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}</td>
                 </tr>
               ))}
             </Table>
@@ -94,8 +94,8 @@ export default async function DataQualityPage() {
             <Table head={["Student", "Admission no."]}>
               {studentsWithoutGuardian.map((s) => (
                 <tr key={s.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{s.user.name}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{s.admissionNo}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{s.user.name}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{s.admissionNo}</td>
                 </tr>
               ))}
             </Table>
@@ -110,7 +110,7 @@ export default async function DataQualityPage() {
             <Table head={["Subject", "Assessment", "Term", "Missing"]}>
               {incompleteAssessments.map((a) => (
                 <tr key={a.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{a.subject.name}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{a.subject.name}</td>
                   <td className="py-2.5 px-3">{a.name}</td>
                   <td className="py-2.5 px-3">{a.term.name}</td>
                   <td className="py-2.5 px-3">
@@ -130,7 +130,7 @@ export default async function DataQualityPage() {
             <Table head={["Student", "Reference", "Amount", "Status"]}>
               {staleInvoices.map((inv) => (
                 <tr key={inv.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{inv.student.user.name}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{inv.student.user.name}</td>
                   <td className="py-2.5 px-3">{inv.reference}</td>
                   <td className="py-2.5 px-3">UGX {Math.round(inv.amount).toLocaleString()}</td>
                   <td className="py-2.5 px-3">
@@ -150,9 +150,9 @@ export default async function DataQualityPage() {
             <Table head={["Name", "Role", "Created"]}>
               {dormantPrivileged.map((u) => (
                 <tr key={u.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{u.name}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{u.name}</td>
                   <td className="py-2.5 px-3">{u.role}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{new Date(u.createdAt).toLocaleDateString()}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{new Date(u.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </Table>

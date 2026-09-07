@@ -72,11 +72,11 @@ export function MfaPanel({ initiallyEnabled }: { initiallyEnabled: boolean }) {
           </div>
         ) : enrollment ? (
           <div className="space-y-3">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               Add this account to your authenticator app using the key below, then enter the 6-digit code it shows.
             </p>
-            <div className="bg-slate-50 rounded-lg p-3 text-sm font-mono break-all">{enrollment.secret}</div>
-            <details className="text-xs text-slate-400">
+            <div className="bg-slate-50 rounded-lg p-3 text-sm font-mono break-all dark:bg-slate-800">{enrollment.secret}</div>
+            <details className="text-xs text-slate-400 dark:text-slate-500">
               <summary className="cursor-pointer">Show setup link (for apps that accept a URI)</summary>
               <p className="break-all mt-1">{enrollment.uri}</p>
             </details>

@@ -26,10 +26,10 @@ export default async function MaterialsPage() {
             <Table head={["Title", "Subject", "Type", "Posted"]}>
               {materials.map((m) => (
                 <tr key={m.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{m.title}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{m.title}</td>
                   <td className="py-2.5 px-3">{m.subject.name}</td>
                   <td className="py-2.5 px-3">{m.type}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{new Date(m.createdAt).toLocaleDateString()}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{new Date(m.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </Table>

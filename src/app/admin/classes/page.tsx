@@ -19,13 +19,13 @@ export default async function ClassesPage() {
           <Table head={["Class", "Level", "Students"]}>
             {classGroups.map((c) => (
               <tr key={c.id}>
-                <td className="py-2.5 px-3 font-medium text-slate-900">{c.name}</td>
+                <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{c.name}</td>
                 <td className="py-2.5 px-3">{c.level ?? "—"}</td>
                 <td className="py-2.5 px-3">{c.students.length}</td>
               </tr>
             ))}
           </Table>
-          <form action={createClassGroup} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-2 gap-3">
+          <form action={createClassGroup} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-2 gap-3 dark:border-slate-800">
             <div>
               <Label>Class name</Label>
               <Input name="name" required placeholder="e.g. S4 East" />
@@ -45,12 +45,12 @@ export default async function ClassesPage() {
           <Table head={["Subject", "Code"]}>
             {subjects.map((s) => (
               <tr key={s.id}>
-                <td className="py-2.5 px-3 font-medium text-slate-900">{s.name}</td>
+                <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{s.name}</td>
                 <td className="py-2.5 px-3">{s.code}</td>
               </tr>
             ))}
           </Table>
-          <form action={createSubject} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-2 gap-3">
+          <form action={createSubject} className="p-4 sm:p-5 border-t border-slate-100 grid sm:grid-cols-2 gap-3 dark:border-slate-800">
             <div>
               <Label>Subject name</Label>
               <Input name="name" required placeholder="e.g. Mathematics" />

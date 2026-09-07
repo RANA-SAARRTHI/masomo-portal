@@ -49,14 +49,14 @@ export function ImportClient() {
               type="file"
               accept=".csv,text/csv"
               onChange={handleFile}
-              className="block w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-brand-50 file:text-brand-700 file:text-sm hover:file:bg-brand-100"
+              className="block w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-brand-50 file:text-brand-700 file:text-sm hover:file:bg-brand-100 dark:text-slate-400"
             />
             <textarea
               value={csvText}
               onChange={(e) => setCsvText(e.target.value)}
               rows={8}
               placeholder={SAMPLE}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-mono outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-mono outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700"
             />
             <div className="flex gap-2">
               <Button type="button" onClick={runPreview} disabled={!csvText.trim() || isPending}>
@@ -97,7 +97,7 @@ export function ImportClient() {
                         <span>
                           {r.name} · {r.email} · {r.admissionNo}
                         </span>
-                        {r.errors.length > 0 ? <Badge tone="amber">No class match</Badge> : <span className="text-slate-400">{r.className || "Unassigned"}</span>}
+                        {r.errors.length > 0 ? <Badge tone="amber">No class match</Badge> : <span className="text-slate-400 dark:text-slate-500">{r.className || "Unassigned"}</span>}
                       </div>
                     ))}
                   </div>
@@ -122,11 +122,11 @@ export function ImportClient() {
         )}
       </div>
 
-      <Card className="h-fit p-4 sm:p-5 text-sm text-slate-600 space-y-2">
-        <p className="font-medium text-slate-800">How this works</p>
+      <Card className="h-fit p-4 sm:p-5 text-sm text-slate-600 space-y-2 dark:text-slate-400">
+        <p className="font-medium text-slate-800 dark:text-slate-200">How this works</p>
         <p>Nothing is written to the database until you click Import. Validation only checks the file first.</p>
         <p>Every row needs a name, a valid email and an admission number. Duplicate emails or admission numbers, in the file or already on record, are skipped and listed.</p>
-        <p>New accounts get the default password <code className="bg-slate-100 px-1 rounded">Masomo@2026</code> — ask students to change it after first login.</p>
+        <p>New accounts get the default password <code className="bg-slate-100 px-1 rounded dark:bg-slate-800">Masomo@2026</code> — ask students to change it after first login.</p>
         <p>This action is logged in the audit trail with the counts of created and skipped rows.</p>
       </Card>
     </div>

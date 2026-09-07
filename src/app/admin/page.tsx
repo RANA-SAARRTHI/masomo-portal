@@ -41,10 +41,10 @@ export default async function AdminOverview() {
             <EmptyState title="No announcements yet" body="Post one from the Announcements page." />
           ) : (
             announcements.map((a) => (
-              <div key={a.id} className="flex items-start justify-between gap-3 border-b border-slate-50 pb-3 last:border-0 last:pb-0">
+              <div key={a.id} className="flex items-start justify-between gap-3 border-b border-slate-50 pb-3 last:border-0 last:pb-0 dark:border-slate-800">
                 <div>
-                  <p className="font-medium text-slate-900 text-sm">{a.title}</p>
-                  <p className="text-sm text-slate-500 line-clamp-1">{a.body}</p>
+                  <p className="font-medium text-slate-900 text-sm dark:text-slate-100">{a.title}</p>
+                  <p className="text-sm text-slate-500 line-clamp-1 dark:text-slate-400">{a.body}</p>
                 </div>
                 <Badge tone={a.priority === "EMERGENCY" ? "rose" : a.priority === "IMPORTANT" ? "amber" : "slate"}>
                   {a.priority}

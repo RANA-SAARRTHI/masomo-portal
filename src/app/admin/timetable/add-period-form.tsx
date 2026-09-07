@@ -26,7 +26,7 @@ export function AddPeriodForm({
   }
 
   return (
-    <div className="p-4 sm:p-5 border-t border-slate-100">
+    <div className="p-4 sm:p-5 border-t border-slate-100 dark:border-slate-800">
       {error && <p className="text-sm text-rose-600 bg-rose-50 rounded-lg px-3 py-2 mb-3">{error}</p>}
       <form action={handleSubmit} className="grid sm:grid-cols-6 gap-3 items-end">
         <input type="hidden" name="classGroupId" value={classGroupId} />

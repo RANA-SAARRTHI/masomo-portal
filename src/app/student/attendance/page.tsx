@@ -32,7 +32,7 @@ export default async function StudentAttendancePage() {
                 <td className="py-2.5 px-3">
                   <Badge tone={r.status === "PRESENT" ? "emerald" : r.status === "ABSENT" ? "rose" : "amber"}>{r.status}</Badge>
                 </td>
-                <td className="py-2.5 px-3 text-slate-500">{r.reason ?? "—"}</td>
+                <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{r.reason ?? "—"}</td>
               </tr>
             ))}
           </Table>

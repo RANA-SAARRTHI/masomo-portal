@@ -28,9 +28,9 @@ export default async function StudentMessagesPage() {
             <Card key={m.id} className="p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="font-medium text-slate-900">{m.title}</p>
-                  <p className="text-sm text-slate-600 mt-1">{m.body}</p>
-                  <p className="text-xs text-slate-400 mt-2">
+                  <p className="font-medium text-slate-900 dark:text-slate-100">{m.title}</p>
+                  <p className="text-sm text-slate-600 mt-1 dark:text-slate-400">{m.body}</p>
+                  <p className="text-xs text-slate-400 mt-2 dark:text-slate-500">
                     {m.authorName} · {new Date(m.createdAt).toLocaleString()}
                   </p>
                 </div>

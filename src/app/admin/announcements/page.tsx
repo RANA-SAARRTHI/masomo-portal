@@ -21,9 +21,9 @@ export default async function AnnouncementsPage() {
               <Card key={a.id} className="p-4 sm:p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="font-medium text-slate-900">{a.title}</p>
-                    <p className="text-sm text-slate-600 mt-1">{a.body}</p>
-                    <p className="text-xs text-slate-400 mt-2">
+                    <p className="font-medium text-slate-900 dark:text-slate-100">{a.title}</p>
+                    <p className="text-sm text-slate-600 mt-1 dark:text-slate-400">{a.body}</p>
+                    <p className="text-xs text-slate-400 mt-2 dark:text-slate-500">
                       {a.authorName} · {a.audience} · {new Date(a.createdAt).toLocaleString()}
                     </p>
                   </div>
@@ -49,7 +49,7 @@ export default async function AnnouncementsPage() {
                 name="body"
                 required
                 rows={4}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700"
                 placeholder="Write your announcement..."
               />
             </div>

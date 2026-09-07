@@ -21,7 +21,7 @@ export function RunAllDueButton() {
       <Button type="button" variant="secondary" onClick={handleClick} disabled={isPending}>
         {isPending ? "Checking..." : "Run due reports now"}
       </Button>
-      {message && <span className="text-sm text-slate-500">{message}</span>}
+      {message && <span className="text-sm text-slate-500 dark:text-slate-400">{message}</span>}
     </div>
   );
 }

@@ -63,7 +63,7 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
             <>
               <div className="px-4 sm:px-5 pt-4 flex items-center gap-2">
                 <Badge tone={STATE_TONE[active.state] ?? "slate"}>{active.state}</Badge>
-                <span className="text-sm text-slate-500">Max mark: {active.maxMark}</span>
+                <span className="text-sm text-slate-500 dark:text-slate-400">Max mark: {active.maxMark}</span>
                 {active.state === "OPEN" && (
                   <form action={submitForModeration} className="ml-auto">
                     <input type="hidden" name="assessmentId" value={active.id} />
@@ -73,7 +73,7 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
                   </form>
                 )}
                 {active.state !== "OPEN" && (
-                  <span className="ml-auto text-xs text-slate-400">
+                  <span className="ml-auto text-xs text-slate-400 dark:text-slate-500">
                     {active.state === "PUBLISHED" ? "Published — visible to students and guardians." : "Awaiting review before publication."}
                   </span>
                 )}
@@ -83,9 +83,9 @@ export default async function MarksPage({ searchParams }: { searchParams: Promis
                 {students.map((s) => {
                   const m = marksMap.get(s.id);
                   return (
-                    <div key={s.id} className="flex items-center gap-3 border-b border-slate-50 pb-2 last:border-0">
+                    <div key={s.id} className="flex items-center gap-3 border-b border-slate-50 pb-2 last:border-0 dark:border-slate-800">
                       <input type="hidden" name="studentId" value={s.id} />
-                      <span className="flex-1 text-sm font-medium text-slate-800">{s.user.name}</span>
+                      <span className="flex-1 text-sm font-medium text-slate-800 dark:text-slate-200">{s.user.name}</span>
                       <Select name={`state-${s.id}`} defaultValue={m?.state ?? "ENTERED"} className="w-32" disabled={active.state !== "OPEN"}>
                         <option value="ENTERED">Score</option>
                         <option value="ABSENT">Absent</option>

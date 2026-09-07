@@ -38,15 +38,15 @@ export default async function AdminLeavePage() {
           {pending.length === 0 ? (
             <EmptyState title="Nothing waiting for a decision" />
           ) : (
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {pending.map((r) => (
                 <div key={r.id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3">
                   <div className="flex-1">
-                    <p className="font-medium text-slate-900">{r.staff.user.name}</p>
-                    <p className="text-sm text-slate-500">
+                    <p className="font-medium text-slate-900 dark:text-slate-100">{r.staff.user.name}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
                       {CATEGORY_LABEL[r.category] ?? r.category} · {new Date(r.startDate).toLocaleDateString()} – {new Date(r.endDate).toLocaleDateString()}
                     </p>
-                    {r.reason && <p className="text-sm text-slate-400 mt-1">{r.reason}</p>}
+                    {r.reason && <p className="text-sm text-slate-400 mt-1 dark:text-slate-500">{r.reason}</p>}
                   </div>
                   <form action={decideLeaveRequest} className="flex gap-2 items-center">
                     <input type="hidden" name="leaveRequestId" value={r.id} />
@@ -72,9 +72,9 @@ export default async function AdminLeavePage() {
             <Table head={["Staff", "Category", "Dates", "Status"]}>
               {decided.map((r) => (
                 <tr key={r.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{r.staff.user.name}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{r.staff.user.name}</td>
                   <td className="py-2.5 px-3">{CATEGORY_LABEL[r.category] ?? r.category}</td>
-                  <td className="py-2.5 px-3 text-slate-500">
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">
                     {new Date(r.startDate).toLocaleDateString()} – {new Date(r.endDate).toLocaleDateString()}
                   </td>
                   <td className="py-2.5 px-3">

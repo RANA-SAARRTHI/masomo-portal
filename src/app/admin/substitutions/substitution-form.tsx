@@ -68,7 +68,7 @@ export function SubstitutionForm({ slots }: { slots: SlotOption[] }) {
       {success && <p className="text-sm text-emerald-700 bg-emerald-50 rounded-lg px-3 py-2">{success}</p>}
 
       {eligible && eligible.length > 0 && (
-        <form action={handleAssign} className="grid sm:grid-cols-3 gap-3 items-end border-t border-slate-100 pt-4">
+        <form action={handleAssign} className="grid sm:grid-cols-3 gap-3 items-end border-t border-slate-100 pt-4 dark:border-slate-800">
           <input type="hidden" name="timetableSlotId" value={slotId} />
           <input type="hidden" name="date" value={date} />
           <div>

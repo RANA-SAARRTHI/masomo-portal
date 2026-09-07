@@ -107,7 +107,7 @@ export default async function GuardianOverview({ searchParams }: { searchParams:
             <Table head={["Subject", "Assessment", "Score"]}>
               {marks.map((m) => (
                 <tr key={m.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{m.assessment.subject.name}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{m.assessment.subject.name}</td>
                   <td className="py-2.5 px-3">{m.assessment.name}</td>
                   <td className="py-2.5 px-3">{m.state === "ENTERED" ? `${m.score}/${m.assessment.maxMark}` : m.state}</td>
                 </tr>
@@ -143,9 +143,9 @@ export default async function GuardianOverview({ searchParams }: { searchParams:
           ) : (
             <div className="p-4 sm:p-5 space-y-3">
               {messages.map((m) => (
-                <div key={m.id} className="border-b border-slate-50 pb-2 last:border-0">
-                  <p className="text-sm font-medium text-slate-800">{m.title}</p>
-                  <p className="text-xs text-slate-500">{m.body}</p>
+                <div key={m.id} className="border-b border-slate-50 pb-2 last:border-0 dark:border-slate-800">
+                  <p className="text-sm font-medium text-slate-800 dark:text-slate-200">{m.title}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{m.body}</p>
                 </div>
               ))}
             </div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ROLE_LABELS, type RoleName } from "@/lib/roles";
 import { SignOutButton } from "@/components/sign-out-button";
 import { GlobalSearch } from "@/components/global-search";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export type NavItem = { href: string; label: string; icon?: string };
 
@@ -49,17 +50,17 @@ export function DashboardShell({
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 border-b bg-white flex items-center justify-between px-4 gap-3">
-          <div className="flex items-center gap-2 text-sm text-slate-600 min-w-0">
-            <span className="font-medium text-slate-900 truncate">{tenantName}</span>
-            <span className="text-slate-300">/</span>
-            <span className="inline-flex items-center rounded-full bg-brand-50 text-brand-700 px-2 py-0.5 text-xs font-medium">
+        <header className="h-14 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between px-4 gap-3">
+          <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 min-w-0">
+            <span className="font-medium text-slate-900 dark:text-slate-100 truncate">{tenantName}</span>
+            <span className="text-slate-300 dark:text-slate-600">/</span>
+            <span className="inline-flex items-center rounded-full bg-brand-50 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 px-2 py-0.5 text-xs font-medium">
               {ROLE_LABELS[role]}
             </span>
             {termLabel ? (
               <>
-                <span className="text-slate-300 hidden sm:inline">/</span>
-                <span className="text-slate-500 hidden sm:inline">{termLabel}</span>
+                <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">/</span>
+                <span className="text-slate-500 dark:text-slate-400 hidden sm:inline">{termLabel}</span>
               </>
             ) : null}
           </div>
@@ -69,20 +70,30 @@ export function DashboardShell({
             </div>
           )}
           <div className="flex items-center gap-3 shrink-0">
-            <span className="text-sm text-slate-600 hidden sm:inline">{userName}</span>
+            <span className="text-sm text-slate-600 dark:text-slate-400 hidden sm:inline">{userName}</span>
             {role !== "STUDENT" && role !== "GUARDIAN" && (
-              <Link href="/account/leave" className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 hidden lg:inline">
+              <Link
+                href="/account/leave"
+                className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hidden lg:inline"
+              >
                 My leave
               </Link>
             )}
             {role === "BURSAR" && (
-              <Link href="/account/reports" className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 hidden lg:inline">
+              <Link
+                href="/account/reports"
+                className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hidden lg:inline"
+              >
                 My reports
               </Link>
             )}
-            <Link href="/account/security" className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 hidden sm:inline">
+            <Link
+              href="/account/security"
+              className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hidden sm:inline"
+            >
               Security
             </Link>
+            <ThemeToggle />
             <SignOutButton />
           </div>
         </header>

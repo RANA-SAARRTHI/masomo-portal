@@ -30,8 +30,8 @@ export default async function StaffPage() {
               {staff.map((s) => (
                 <tr key={s.id}>
                   <td className="py-2.5 px-3">
-                    <div className="font-medium text-slate-900">{s.name}</div>
-                    <div className="text-xs text-slate-400">{s.email}</div>
+                    <div className="font-medium text-slate-900 dark:text-slate-100">{s.name}</div>
+                    <div className="text-xs text-slate-400 dark:text-slate-500">{s.email}</div>
                   </td>
                   <td className="py-2.5 px-3">{ROLE_LABELS[s.role as keyof typeof ROLE_LABELS] ?? s.role}</td>
                   <td className="py-2.5 px-3">{s.staffProfile?.staffNo ?? "—"}</td>
@@ -86,7 +86,7 @@ export default async function StaffPage() {
                   ))}
                 </Select>
               </div>
-              <label className="flex items-center gap-2 text-sm text-slate-600 mt-6">
+              <label className="flex items-center gap-2 text-sm text-slate-600 mt-6 dark:text-slate-400">
                 <input type="checkbox" name="isClassTeacher" className="rounded" /> Class teacher
               </label>
               <div className="sm:col-span-2">
@@ -129,7 +129,7 @@ export default async function StaffPage() {
             <Button type="submit" className="w-full">
               Add staff member
             </Button>
-            <p className="text-xs text-slate-400">Default password: Masomo@2026</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500">Default password: Masomo@2026</p>
           </form>
         </Card>
       </div>

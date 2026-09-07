@@ -15,7 +15,7 @@ function ExportLinks() {
         <a
           key={l.type}
           href={`/api/reports/export?type=${l.type}`}
-          className="text-xs px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50"
+          className="text-xs px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400"
         >
           ⭳ {l.label}
         </a>

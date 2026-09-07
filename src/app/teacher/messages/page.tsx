@@ -26,9 +26,9 @@ export default async function TeacherMessagesPage() {
           ) : (
             messages.map((m) => (
               <Card key={m.id} className="p-4">
-                <p className="font-medium text-slate-900">{m.title}</p>
-                <p className="text-sm text-slate-600 mt-1">{m.body}</p>
-                <p className="text-xs text-slate-400 mt-2">{new Date(m.createdAt).toLocaleString()}</p>
+                <p className="font-medium text-slate-900 dark:text-slate-100">{m.title}</p>
+                <p className="text-sm text-slate-600 mt-1 dark:text-slate-400">{m.body}</p>
+                <p className="text-xs text-slate-400 mt-2 dark:text-slate-500">{new Date(m.createdAt).toLocaleString()}</p>
               </Card>
             ))
           )}
@@ -52,7 +52,7 @@ export default async function TeacherMessagesPage() {
             </div>
             <div>
               <Label>Message</Label>
-              <textarea name="body" required rows={4} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500" />
+              <textarea name="body" required rows={4} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-500 dark:border-slate-700" />
             </div>
             <Button type="submit" className="w-full">
               Send

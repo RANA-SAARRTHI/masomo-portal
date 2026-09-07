@@ -31,9 +31,9 @@ export default async function AttendancePage({
       <PageHeader title="Attendance" subtitle="Take today's register for your class. Works offline and submits automatically once you're back online." />
 
       <Card>
-        <form method="get" className="p-4 sm:p-5 flex flex-wrap gap-3 items-end border-b border-slate-100">
+        <form method="get" className="p-4 sm:p-5 flex flex-wrap gap-3 items-end border-b border-slate-100 dark:border-slate-800">
           <div className="w-48">
-            <label className="text-sm font-medium text-slate-700 block mb-1">Class</label>
+            <label className="text-sm font-medium text-slate-700 block mb-1 dark:text-slate-300">Class</label>
             <Select name="classGroupId" defaultValue={classGroupId}>
               {classGroups.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -43,7 +43,7 @@ export default async function AttendancePage({
             </Select>
           </div>
           <div className="w-48">
-            <label className="text-sm font-medium text-slate-700 block mb-1">Date</label>
+            <label className="text-sm font-medium text-slate-700 block mb-1 dark:text-slate-300">Date</label>
             <Input type="date" name="date" defaultValue={date} />
           </div>
           <Button type="submit" variant="secondary">

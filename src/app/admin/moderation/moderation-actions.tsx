@@ -76,7 +76,7 @@ export function PublishCard({ assessmentId, canPublish }: { assessmentId: string
             {isPending ? "Publishing..." : "Publish to students & guardians"}
           </Button>
         ) : (
-          <p className="text-sm text-slate-400">Moderated — waiting for the principal to publish.</p>
+          <p className="text-sm text-slate-400 dark:text-slate-500">Moderated — waiting for the principal to publish.</p>
         )}
       </form>
     </div>

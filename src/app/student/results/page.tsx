@@ -33,13 +33,13 @@ export default async function StudentResultsPage() {
           <Table head={["Subject", "Assessment", "Term", "Score", "State"]}>
             {marks.map((m) => (
               <tr key={m.id}>
-                <td className="py-2.5 px-3 font-medium text-slate-900">{m.assessment.subject.name}</td>
+                <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{m.assessment.subject.name}</td>
                 <td className="py-2.5 px-3">{m.assessment.name}</td>
                 <td className="py-2.5 px-3">{m.assessment.term.name}</td>
                 <td className="py-2.5 px-3">
                   {m.state === "ENTERED" ? `${m.score ?? "-"} / ${m.assessment.maxMark}` : m.state}
                 </td>
-                <td className="py-2.5 px-3 text-slate-500">{m.state}</td>
+                <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{m.state}</td>
               </tr>
             ))}
           </Table>

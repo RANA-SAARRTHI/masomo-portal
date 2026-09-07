@@ -32,12 +32,12 @@ export default async function ScheduledReportsPage() {
             <Table head={["Report", "Cadence", "Recipient", "Last run", ""]}>
               {schedules.map((s) => (
                 <tr key={s.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{REPORT_LABEL[s.type as keyof typeof REPORT_LABEL] ?? s.type}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{REPORT_LABEL[s.type as keyof typeof REPORT_LABEL] ?? s.type}</td>
                   <td className="py-2.5 px-3">
                     <Badge tone="slate">{s.cadence}</Badge>
                   </td>
                   <td className="py-2.5 px-3">{s.recipient.name}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{s.lastRunAt ? new Date(s.lastRunAt).toLocaleString() : "Never"}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{s.lastRunAt ? new Date(s.lastRunAt).toLocaleString() : "Never"}</td>
                   <td className="py-2.5 px-3 flex gap-2">
                     <form action={runScheduledReportNow}>
                       <input type="hidden" name="scheduledReportId" value={s.id} />
@@ -68,9 +68,9 @@ export default async function ScheduledReportsPage() {
             <Table head={["Report", "Rows", "Generated", ""]}>
               {recentRuns.map((r) => (
                 <tr key={r.id}>
-                  <td className="py-2.5 px-3 font-medium text-slate-900">{REPORT_LABEL[r.type as keyof typeof REPORT_LABEL] ?? r.type}</td>
+                  <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{REPORT_LABEL[r.type as keyof typeof REPORT_LABEL] ?? r.type}</td>
                   <td className="py-2.5 px-3">{r.rowCount}</td>
-                  <td className="py-2.5 px-3 text-slate-500">{new Date(r.createdAt).toLocaleString()}</td>
+                  <td className="py-2.5 px-3 text-slate-500 dark:text-slate-400">{new Date(r.createdAt).toLocaleString()}</td>
                   <td className="py-2.5 px-3">
                     <a href={`/api/exports/${r.id}`} className="text-xs text-brand-700 underline">
                       Download

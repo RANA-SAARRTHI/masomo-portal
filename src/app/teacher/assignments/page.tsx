@@ -38,7 +38,7 @@ export default async function AssignmentsPage() {
                   <Table head={["Student", "Submitted", "Score", "Feedback"]}>
                     {a.submissions.map((s) => (
                       <tr key={s.id}>
-                        <td className="py-2.5 px-3 font-medium text-slate-900">{s.student.user.name}</td>
+                        <td className="py-2.5 px-3 font-medium text-slate-900 dark:text-slate-100">{s.student.user.name}</td>
                         <td className="py-2.5 px-3">
                           {new Date(s.submittedAt).toLocaleString()} {s.late && <Badge tone="amber">Late</Badge>}
                         </td>
@@ -87,7 +87,7 @@ export default async function AssignmentsPage() {
               <Label>Due date</Label>
               <Input type="date" name="dueDate" required />
             </div>
-            <label className="flex items-center gap-2 text-sm text-slate-600">
+            <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
               <input type="checkbox" name="allowLate" className="rounded" /> Allow late submission
             </label>
             <Button type="submit" className="w-full">

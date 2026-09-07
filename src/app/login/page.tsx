@@ -49,15 +49,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-10">
-      <div className="w-full max-w-4xl grid md:grid-cols-2 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-10 dark:bg-slate-800">
+      <div className="w-full max-w-4xl grid md:grid-cols-2 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden dark:bg-slate-900 dark:border-slate-700">
         <div className="p-8 sm:p-10">
           <Link href="/" className="flex items-center gap-2 mb-8">
             <div className="h-8 w-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold">M</div>
             <span className="font-semibold text-lg">Masomo</span>
           </Link>
-          <h1 className="text-xl font-semibold text-slate-900">Sign in to your school</h1>
-          <p className="text-sm text-slate-500 mt-1">Use the email and password your school gave you.</p>
+          <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Sign in to your school</h1>
+          <p className="text-sm text-slate-500 mt-1 dark:text-slate-400">Use the email and password your school gave you.</p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
@@ -94,7 +94,7 @@ export default function LoginPage() {
                   onChange={(e) => setTotp(e.target.value)}
                   placeholder="6-digit code"
                 />
-                <p className="text-xs text-slate-400 mt-1">This account requires a code from your authenticator app.</p>
+                <p className="text-xs text-slate-400 mt-1 dark:text-slate-500">This account requires a code from your authenticator app.</p>
               </div>
             )}
             {error ? <p className="text-sm text-rose-600">{error}</p> : null}
@@ -102,7 +102,7 @@ export default function LoginPage() {
               {loading ? "Signing in..." : needsMfa ? "Verify and sign in" : "Sign in"}
             </Button>
           </form>
-          <p className="text-xs text-slate-400 mt-6">
+          <p className="text-xs text-slate-400 mt-6 dark:text-slate-500">
             Forgotten your password? Ask your school administrator to reset it from the Admin panel.
           </p>
         </div>

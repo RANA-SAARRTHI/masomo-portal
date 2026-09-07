@@ -75,6 +75,11 @@ export function DashboardShell({
                 My leave
               </Link>
             )}
+            {role === "BURSAR" && (
+              <Link href="/account/reports" className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 hidden lg:inline">
+                My reports
+              </Link>
+            )}
             <Link href="/account/security" className="text-sm px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 hidden sm:inline">
               Security
             </Link>

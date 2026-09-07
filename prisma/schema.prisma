@@ -32,6 +32,8 @@ model Tenant {
   routes           TransportRoute[]
   wellbeingRecords WellbeingRecord[]
   leaveRequests    LeaveRequest[]
+  scheduledReports ScheduledReport[]
+  exportRuns       ExportRun[]
 }
 
 model User {
@@ -54,6 +56,8 @@ model User {
   attendanceMarked AttendanceRecord[] @relation("MarkedBy")
   submissions      Submission[]
   auditLogs        AuditLog[]
+  reportsToReceive ScheduledReport[]  @relation("ReportRecipient")
+  exportsRequested ExportRun[]        @relation("ExportRequester")
 
   @@unique([tenantId, email])
   @@index([tenantId, role])
@@ -419,6 +423,37 @@ model WellbeingRecord {
   updatedAt     DateTime       @updatedAt
 
   @@index([tenantId, studentId])
+}
+
+model ScheduledReport {
+  id          String    @id @default(cuid())
+  tenantId    String
+  tenant      Tenant    @relation(fields: [tenantId], references: [id])
+  type        String // attendance, fees, students
+  cadence     String // WEEKLY, MONTHLY
+  recipientId String
+  recipient   User      @relation("ReportRecipient", fields: [recipientId], references: [id])
+  createdById String
+  createdAt   DateTime  @default(now())
+  lastRunAt   DateTime?
+
+  runs ExportRun[]
+}
+
+model ExportRun {
+  id                String           @id @default(cuid())
+  tenantId          String
+  tenant            Tenant           @relation(fields: [tenantId], references: [id])
+  scheduledReportId String?
+  scheduledReport   ScheduledReport? @relation(fields: [scheduledReportId], references: [id])
+  type              String
+  requestedById     String
+  requestedBy       User             @relation("ExportRequester", fields: [requestedById], references: [id])
+  rowCount          Int
+  content           String
+  createdAt         DateTime         @default(now())
+
+  @@index([tenantId, createdAt])
 }
 
 model AuditLog {

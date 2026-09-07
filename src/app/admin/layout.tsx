@@ -15,6 +15,7 @@ const nav = [
   { href: "/admin/quality", label: "Data quality" },
   { href: "/admin/announcements", label: "Announcements" },
   { href: "/admin/reports", label: "Reports" },
+  { href: "/admin/scheduled-reports", label: "Scheduled reports" },
   { href: "/admin/settings", label: "Settings" },
 ];
 

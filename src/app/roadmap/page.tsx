@@ -27,11 +27,12 @@ const live = [
   "Two-factor authentication (any standard authenticator app) that anyone can turn on from Account security — enforced at login the moment it's enabled, verified end to end including wrong-code and no-code rejection",
   "Staff leave requests: any staff member can request sick, annual, compassionate or maternity/paternity leave and track its status; admins and principals approve or decline with a note",
   "A data-quality dashboard flagging missing attendance registers, students with no linked guardian, assessments with unentered marks, invoices unpaid for 30+ days, and privileged accounts that have never logged in",
+  "Watermarked, audited exports: every download embeds who requested it, when and why, and is logged; scheduled weekly/monthly reports can only be pointed at a recipient whose role already has that access — a schedule can never grant extra permission",
 ];
 
 const planned = [
   "Real SMS and mobile money provider integration with signed callback verification — needs a contracted Ugandan provider (e.g. a licensed aggregator) and live API credentials",
-  "Scheduled and exportable reports with watermarking for sensitive data",
+  "Automatic (unattended) execution of scheduled reports on a real clock — today they run on demand from the Scheduled reports page (\"Run due reports now\") since there's no background job runner yet",
   "Leave approval automatically triggering a substitution suggestion for affected timetable periods",
   "Shared rate-limit store (Redis) so login lockouts hold across multiple server instances — needs a Redis instance to be provisioned",
   "Postgres in production with automated encrypted backups and tested restores — needs a hosting/database provider decision",

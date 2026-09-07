@@ -3,6 +3,27 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader } from "@/components/ui";
 import { BarStat, PieStat } from "@/components/charts";
 
+function ExportLinks() {
+  const links = [
+    { type: "attendance", label: "Attendance CSV" },
+    { type: "fees", label: "Fee collection CSV" },
+    { type: "students", label: "Students CSV" },
+  ];
+  return (
+    <div className="flex flex-wrap gap-2">
+      {links.map((l) => (
+        <a
+          key={l.type}
+          href={`/api/reports/export?type=${l.type}`}
+          className="text-xs px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50"
+        >
+          ⭳ {l.label}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 export default async function ReportsPage() {
   const { tenantId } = await requireSession("/admin");
 
@@ -31,7 +52,11 @@ export default async function ReportsPage() {
 
   return (
     <div>
-      <PageHeader title="Reports" subtitle="Attendance, enrolment and fee collection at a glance." />
+      <PageHeader
+        title="Reports"
+        subtitle="Attendance, enrolment and fee collection at a glance."
+        action={<ExportLinks />}
+      />
       <div className="grid lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader title="Students per class" />

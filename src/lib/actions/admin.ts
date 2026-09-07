@@ -139,6 +139,32 @@ export async function updateTenantBranding(formData: FormData) {
   revalidatePath("/admin/settings");
 }
 
+export async function createTimetableSlot(formData: FormData) {
+  const { tenantId, userId } = await requireSession("/admin");
+  const classGroupId = String(formData.get("classGroupId") ?? "");
+  const subjectId = String(formData.get("subjectId") ?? "");
+  const dayOfWeek = Number(formData.get("dayOfWeek") ?? 1);
+  const startTime = String(formData.get("startTime") ?? "");
+  const endTime = String(formData.get("endTime") ?? "");
+  const room = String(formData.get("room") ?? "").trim();
+  if (!classGroupId || !subjectId || !startTime || !endTime) return;
+
+  await prisma.timetableSlot.create({
+    data: { classGroupId, subjectId, dayOfWeek, startTime, endTime, room: room || null },
+  });
+  await logAction(tenantId, userId, "CREATE_TIMETABLE_SLOT", classGroupId);
+  revalidatePath("/admin/timetable");
+}
+
+export async function deleteTimetableSlot(formData: FormData) {
+  const { tenantId, userId } = await requireSession("/admin");
+  const slotId = String(formData.get("slotId") ?? "");
+  if (!slotId) return;
+  await prisma.timetableSlot.delete({ where: { id: slotId } });
+  await logAction(tenantId, userId, "DELETE_TIMETABLE_SLOT", slotId);
+  revalidatePath("/admin/timetable");
+}
+
 export async function postAnnouncement(formData: FormData) {
   const { tenantId, userId, name } = await requireSession("/admin");
   const title = String(formData.get("title") ?? "").trim();

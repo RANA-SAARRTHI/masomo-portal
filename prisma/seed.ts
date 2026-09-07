@@ -148,6 +148,16 @@ async function main() {
     });
   }
 
+  await prisma.timetableSlot.createMany({
+    data: [
+      { classGroupId: classS4East.id, subjectId: math.id, dayOfWeek: 1, startTime: "08:00", endTime: "08:40", room: "Room 4" },
+      { classGroupId: classS4East.id, subjectId: english.id, dayOfWeek: 1, startTime: "08:40", endTime: "09:20", room: "Room 4" },
+      { classGroupId: classS4East.id, subjectId: biology.id, dayOfWeek: 2, startTime: "09:20", endTime: "10:00", room: "Lab 1" },
+      { classGroupId: classS4East.id, subjectId: math.id, dayOfWeek: 3, startTime: "08:00", endTime: "08:40", room: "Room 4" },
+      { classGroupId: classS3West.id, subjectId: math.id, dayOfWeek: 2, startTime: "10:20", endTime: "11:00", room: "Room 2" },
+    ],
+  });
+
   await prisma.contentItem.create({
     data: { subjectId: math.id, title: "Quadratic Equations - Notes", description: "Chapter 4 revision notes", type: "DOCUMENT", audience: classS4East.id },
   });

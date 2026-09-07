@@ -3,6 +3,7 @@ import { DashboardShell } from "@/components/dashboard-shell";
 
 const nav = [
   { href: "/student", label: "Today" },
+  { href: "/student/timetable", label: "Timetable" },
   { href: "/student/materials", label: "Materials" },
   { href: "/student/assignments", label: "Assignments" },
   { href: "/student/results", label: "Results" },
